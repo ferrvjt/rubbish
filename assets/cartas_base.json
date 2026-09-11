@@ -1,0 +1,26 @@
+[
+  {
+    "id": "res_01",
+    "nombre": "Cáscara de Plátano",
+    "tipo": 0,
+    "valor": 3
+  },
+  {
+    "id": "res_02",
+    "nombre": "Botella de Plástico",
+    "tipo": 0,
+    "valor": 5
+  },
+  {
+    "id": "trt_01",
+    "nombre": "Compostera Casera",
+    "tipo": 1,
+    "valor": 4
+  },
+  {
+    "id": "cmd_01",
+    "nombre": "Reciclador Experto",
+    "tipo": 2,
+    "valor": 0
+  }
+]
