@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://btvr3sualwlh4" path="res://scripts/main_ui.gd" id="1_513t2"]
 [ext_resource type="Texture2D" uid="uid://ctfy7ylw7tarq" path="res://assets/fondo.jpg" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://d1t2e0vnxv5sl" path="res://scripts/game_manager.gd" id="3_e6fyy"]
 
 [node name="MainUI" type="Control" unique_id=496830009]
 layout_mode = 3
@@ -132,3 +133,6 @@ offset_right = 1126.0
 offset_bottom = 620.0
 theme_override_constants/separation = 10
 alignment = 1
+
+[node name="GameManager" type="Node" parent="." unique_id=95482145]
+script = ExtResource("3_e6fyy")
