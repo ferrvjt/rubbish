@@ -36,6 +36,7 @@ func cargar_desde_json(ruta_archivo: String) -> void:
 	if error_parseo == OK:
 		var lista_cartas_data = json.data
 		cartas.clear()
+		descarte.clear()
 		
 		for data in lista_cartas_data:
 			var nueva_carta = Carta.new(
@@ -49,3 +50,12 @@ func cargar_desde_json(ruta_archivo: String) -> void:
 		barajar()
 	else:
 		push_error("Error al parsear el JSON de cartas: " + json.get_error_message())
+
+func cantidad_restante() -> int:
+	return cartas.size()
+
+func cantidad_descarte() -> int:
+	return descarte.size()
+
+func esta_vacio() -> bool:
+	return cartas.is_empty()

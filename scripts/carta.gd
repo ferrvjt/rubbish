@@ -7,25 +7,78 @@ enum Tipo {
     COMODIN
 }
 
+enum Categoria {
+	ORGANICO,
+	RECICLABLE,
+	EWASTE,
+	TOXICO,
+	AS,
+	COMODIN
+}
+
 var id: String
 var nombre: String
 var tipo: Tipo
+var categoria: Categoria
+var comodin_subtipo: String = "" # "J", "Q", "K"
 var valor: int
+var base_texture_path: String
+var icon_texture_path: String
 
-func _init(p_id: String = "", p_nombre: String = "", p_tipo: Tipo = Tipo.RESIDUO, p_valor: int = 0) -> void:
+func _init(p_id: String = "", p_nombre: String = "", p_tipo: Tipo = Tipo.RESIDUO, p_valor: int = 0, p_base_path: String = "", p_icon_path: String = "") -> void:
 	id = p_id
 	nombre = p_nombre
 	tipo = p_tipo
 	valor = p_valor
+	base_texture_path = p_base_path
+	icon_texture_path = p_icon_path
 
-func aplicar_efecto(estado: EstadoJuego) -> void:
-	match tipo:
-		Tipo.RESIDUO:
-			estado.incrementar_contaminacion(valor)
-		Tipo.TRATAMIENTO:
-			estado.actualizar_puntos(valor)
-		Tipo.COMODIN:
-			pass
+	#Detectar categoría segun ID
+	if id.begins_with("org_"):
+		categoria = Categoria.ORGANICO
+	elif id.begins_with("rec_"):
+		categoria = Categoria.RECICLABLE
+	elif id.begins_with("ewaste_"):
+		categoria = Categoria.EWASTE
+	elif id.begins_with("toxic_"):
+		categoria = Categoria.TOXICO
+	elif id.begins_with("wild_ace_"):
+		categoria = Categoria.AS
+	elif id.begins_with("wild_j_"):
+		categoria = Categoria.COMODIN
+		comodin_subtipo = "J"
+	elif id.begins_with("wild_q_"):
+		categoria = Categoria.COMODIN
+		comodin_subtipo = "Q"
+	elif id.begins_with("wild_k_"):
+		categoria = Categoria.COMODIN
+		comodin_subtipo = "K"
+	else:
+		categoria = Categoria.ORGANICO
+
+func es_organico() -> bool:
+	return categoria == Categoria.ORGANICO
+
+func es_reciclable() -> bool:
+	return categoria == Categoria.RECICLABLE
+
+func es_ewaste() -> bool:
+	return categoria == Categoria.EWASTE
+
+func es_toxico() -> bool:
+	return categoria ==Categoria.TOXICO
+
+func es_as() -> bool:
+	return categoria == Categoria.AS
+
+func es_comodin() -> bool:
+	return categoria == Categoria.COMODIN
+
+func contaminar() -> void:
+	categoria = Categoria.ORGANICO
+	if not nombre.contains("(Contam.)"):
+		nombre = nombre + " (Contam.)"
+	base_texture_path = "res://assets/BaseCard_organic.png"
 
 func get_id() -> String:
 	return id
