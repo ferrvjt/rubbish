@@ -112,18 +112,22 @@ layout_mode = 2
 [node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
+text = "LIMPIAR (+5)"
 
 [node name="BotonPasar" type="Button" parent="BotonesAccion" unique_id=1241315057]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
+text = "PASAR TURNO"
 
 [node name="BotonGuardar" type="Button" parent="BotonesAccion" unique_id=57529821]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
+text = "GUARDAR"
 
 [node name="BotonMenu" type="Button" parent="BotonesAccion" unique_id=1568123389]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
+text = "MENÚ"
 
 [node name="ContenedorMano" type="HBoxContainer" parent="." unique_id=1920176933]
 layout_mode = 0
@@ -134,5 +138,6 @@ offset_bottom = 620.0
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="GameManager" type="Node" parent="." unique_id=95482145]
+[node name="GameManager" type="Node" parent="." unique_id=95482145 node_paths=PackedStringArray("vista_ui")]
 script = ExtResource("3_e6fyy")
+vista_ui = NodePath("..")

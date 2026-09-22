@@ -10,8 +10,8 @@ func barajar() -> void:
 func robar_carta() -> Carta:
 	if cartas.is_empty():
 		if descarte.is_empty():
-			return null # No hay cartas disponibles	
-		cartas = descarte.duplicate() # Si el mazo se acaba, rebarajamos el descarte
+			return null
+		cartas = descarte.duplicate()
 		descarte.clear()
 		barajar()
 	
@@ -43,7 +43,9 @@ func cargar_desde_json(ruta_archivo: String) -> void:
 				data["id"],
 				data["nombre"],
 				data["tipo"] as Carta.Tipo,
-				data["valor"]
+				data["valor"],
+				data.get("base_texture", ""),
+				data.get("icon_texture", "")
 			)
 			cartas.append(nueva_carta)
 			
