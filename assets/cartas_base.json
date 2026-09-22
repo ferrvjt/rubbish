@@ -1,26 +1,362 @@
 [
   {
-    "id": "res_01",
-    "nombre": "Cáscara de Plátano",
-    "tipo": 0,
-    "valor": 3
+	"id": "org_apple_01",
+	"nombre": "Manzana",
+	"tipo": 0,
+	"valor": 2,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/apple.png"
   },
   {
-    "id": "res_02",
-    "nombre": "Botella de Plástico",
-    "tipo": 0,
-    "valor": 5
+	"id": "org_apple_02",
+	"nombre": "Manzana",
+	"tipo": 0,
+	"valor": 2,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/apple.png"
   },
   {
-    "id": "trt_01",
-    "nombre": "Compostera Casera",
-    "tipo": 1,
-    "valor": 4
+	"id": "org_apple_03",
+	"nombre": "Manzana",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/apple.png"
   },
   {
-    "id": "cmd_01",
-    "nombre": "Reciclador Experto",
-    "tipo": 2,
-    "valor": 0
+	"id": "org_banana_01",
+	"nombre": "Plátano",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/banana.png"
+  },
+  {
+	"id": "org_banana_02",
+	"nombre": "Plátano",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/banana.png"
+  },
+  {
+	"id": "org_banana_03",
+	"nombre": "Plátano",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_organic.png",
+	"icon_texture": "res://assets/icons/banana.png"
+  },
+  {
+	"id": "rec_box_01",
+	"nombre": "Cartón",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/cardboard_box.png"
+  },
+  {
+	"id": "rec_box_02",
+	"nombre": "Cartón",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/cardboard_box.png"
+  },
+  {
+	"id": "rec_box_03",
+	"nombre": "Cartón",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/cardboard_box.png"
+  },
+  {
+	"id": "rec_box_04",
+	"nombre": "Cartón",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/cardboard_box.png"
+  },
+  {
+	"id": "rec_bottle_01",
+	"nombre": "Botella",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/bottle.png"
+  },
+  {
+	"id": "rec_bottle_02",
+	"nombre": "Botella",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/bottle.png"
+  },
+  {
+	"id": "rec_bottle_03",
+	"nombre": "Botella",
+	"tipo": 0,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/bottle.png"
+  },
+  {
+	"id": "rec_soda_01",
+	"nombre": "Lata",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/soda_can.png"
+  },
+  {
+	"id": "rec_soda_02",
+	"nombre": "Lata",
+	"tipo": 0,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/soda_can.png"
+  },
+  {
+	"id": "rec_soda_03",
+	"nombre": "Lata",
+	"tipo": 0,
+	"valor": 4,
+	"base_texture": "res://assets/BaseCard_recyclable.png",
+	"icon_texture": "res://assets/icons/soda_can.png"
+  },
+  {
+	"id": "ewaste_battery_01",
+	"nombre": "Batería",
+	"tipo": 0,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/battery.png"
+  },
+  {
+	"id": "ewaste_battery_02",
+	"nombre": "Batería",
+	"tipo": 0,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/battery.png"
+  },
+  {
+	"id": "ewaste_battery_03",
+	"nombre": "Batería",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/battery.png"
+  },
+  {
+	"id": "ewaste_phone_01",
+	"nombre": "Teléfono",
+	"tipo": 0,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/broken_phone.png"
+  },
+  {
+	"id": "ewaste_phone_02",
+	"nombre": "Teléfono",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/broken_phone.png"
+  },
+  {
+	"id": "ewaste_phone_03",
+	"nombre": "Teléfono",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_ewaste.png",
+	"icon_texture": "res://assets/icons/broken_phone.png"
+  },
+  {
+	"id": "toxic_waste_01",
+	"nombre": "Tóxico",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_toxic.png",
+	"icon_texture": "res://assets/icons/toxic_waste.png"
+  },
+  {
+	"id": "toxic_waste_02",
+	"nombre": "Tóxico",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_toxic.png",
+	"icon_texture": "res://assets/icons/toxic_waste.png"
+  },
+  {
+	"id": "toxic_waste_03",
+	"nombre": "Tóxico",
+	"tipo": 0,
+	"valor": 7,
+	"base_texture": "res://assets/BaseCard_toxic.png",
+	"icon_texture": "res://assets/icons/toxic_waste.png"
+  },
+  {
+	"id": "toxic_bio_01",
+	"nombre": "BioHazard",
+	"tipo": 0,
+	"valor": 6,
+	"base_texture": "res://assets/BaseCard_toxic.png",
+	"icon_texture": "res://assets/icons/biohazard.png"
+  },
+  {
+	"id": "toxic_bio_02",
+	"nombre": "BioHazard",
+	"tipo": 0,
+	"valor": 7,
+	"base_texture": "res://assets/BaseCard_toxic.png",
+	"icon_texture": "res://assets/icons/biohazard.png"
+  },
+  {
+	"id": "wild_ace_01",
+	"nombre": "Limpieza",
+	"tipo": 1,
+	"valor": -5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Ace.png"
+  },
+  {
+	"id": "wild_ace_02",
+	"nombre": "Limpieza",
+	"tipo": 1,
+	"valor": -5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Ace.png"
+  },
+  {
+	"id": "wild_ace_03",
+	"nombre": "Limpieza",
+	"tipo": 1,
+	"valor": -5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Ace.png"
+  },
+  {
+	"id": "wild_ace_04",
+	"nombre": "Limpieza",
+	"tipo": 1,
+	"valor": -5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Ace.png"
+  },
+  {
+	"id": "wild_k_01",
+	"nombre": "Contención",
+	"tipo": 2,
+	"valor": 0,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/anti_toxic.png"
+  },
+  {
+	"id": "wild_k_02",
+	"nombre": "Contención",
+	"tipo": 2,
+	"valor": 0,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/anti_toxic.png"
+  },
+  {
+	"id": "wild_k_03",
+	"nombre": "Contención",
+	"tipo": 2,
+	"valor": 0,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/anti_toxic.png"
+  },
+  {
+	"id": "wild_k_04",
+	"nombre": "Contención",
+	"tipo": 2,
+	"valor": 0,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/anti_toxic.png"
+  },
+  {
+	"id": "wild_j_01",
+	"nombre": "Compostera",
+	"tipo": 1,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/J.png"
+  },
+  {
+	"id": "wild_j_02",
+	"nombre": "Compostera",
+	"tipo": 1,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/J.png"
+  },
+  {
+	"id": "wild_j_03",
+	"nombre": "Compostera",
+	"tipo": 1,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/J.png"
+  },
+  {
+	"id": "wild_j_04",
+	"nombre": "Compostera",
+	"tipo": 1,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/J.png"
+  },
+  {
+	"id": "wild_j_05",
+	"nombre": "Compostera",
+	"tipo": 1,
+	"valor": 5,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/J.png"
+  },
+  {
+	"id": "wild_q_01",
+	"nombre": "Recicladora",
+	"tipo": 1,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Q.png"
+  },
+  {
+	"id": "wild_q_02",
+	"nombre": "Recicladora",
+	"tipo": 1,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Q.png"
+  },
+  {
+	"id": "wild_q_03",
+	"nombre": "Recicladora",
+	"tipo": 1,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Q.png"
+  },
+  {
+	"id": "wild_q_04",
+	"nombre": "Recicladora",
+	"tipo": 1,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Q.png"
+  },
+  {
+	"id": "wild_q_05",
+	"nombre": "Recicladora",
+	"tipo": 1,
+	"valor": 3,
+	"base_texture": "res://assets/BaseCard_wildcard.png",
+	"icon_texture": "res://assets/icons/Q.png"
   }
 ]
