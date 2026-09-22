@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://spalxu3yakrt"]
 
+[ext_resource type="Script" uid="uid://cwd2mmlp4yb50" path="res://scripts/card_view.gd" id="1_apa55"]
+
 [node name="CardView" type="Control" unique_id=1807023755]
 custom_minimum_size = Vector2(84, 112)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_apa55")
 
 [node name="BaseCard" type="TextureRect" parent="." unique_id=1784495054]
 custom_minimum_size = Vector2(84, 112)
