@@ -10,8 +10,8 @@ func barajar() -> void:
 func robar_carta() -> Carta:
 	if cartas.is_empty():
 		if descarte.is_empty():
-			return null # No hay cartas disponibles	
-		cartas = descarte.duplicate() # Si el mazo se acaba, rebarajamos el descarte
+			return null
+		cartas = descarte.duplicate()
 		descarte.clear()
 		barajar()
 	
@@ -36,16 +36,28 @@ func cargar_desde_json(ruta_archivo: String) -> void:
 	if error_parseo == OK:
 		var lista_cartas_data = json.data
 		cartas.clear()
+		descarte.clear()
 		
 		for data in lista_cartas_data:
 			var nueva_carta = Carta.new(
 				data["id"],
 				data["nombre"],
 				data["tipo"] as Carta.Tipo,
-				data["valor"]
+				data["valor"],
+				data.get("base_texture", ""),
+				data.get("icon_texture", "")
 			)
 			cartas.append(nueva_carta)
 			
 		barajar()
 	else:
 		push_error("Error al parsear el JSON de cartas: " + json.get_error_message())
+
+func cantidad_restante() -> int:
+	return cartas.size()
+
+func cantidad_descarte() -> int:
+	return descarte.size()
+
+func esta_vacio() -> bool:
+	return cartas.is_empty()

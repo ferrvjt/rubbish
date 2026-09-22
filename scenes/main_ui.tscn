@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://cywtd72o2wlkf"]
+
+[ext_resource type="Script" uid="uid://btvr3sualwlh4" path="res://scripts/main_ui.gd" id="1_513t2"]
+[ext_resource type="Texture2D" uid="uid://ctfy7ylw7tarq" path="res://assets/fondo.jpg" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://d1t2e0vnxv5sl" path="res://scripts/game_manager.gd" id="3_e6fyy"]
+
+[node name="MainUI" type="Control" unique_id=496830009]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_513t2")
+
+[node name="FondoTablero" type="TextureRect" parent="." unique_id=1707149178]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_fnul3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PanelMetricasContainer" type="PanelContainer" parent="." unique_id=1242435434]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 324.0
+offset_bottom = 270.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelMetricasContainer" unique_id=1131246042]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="PanelMetricas" type="VBoxContainer" parent="PanelMetricasContainer/MarginContainer" unique_id=1154487336]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="LabelTurno" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1217143847]
+layout_mode = 2
+
+[node name="LabelContaminacion" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=392579233]
+layout_mode = 2
+
+[node name="LabelPuntos" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1153859651]
+layout_mode = 2
+
+[node name="LabelMazo" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1507351064]
+layout_mode = 2
+
+[node name="LabelComodines" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=945264301]
+layout_mode = 2
+
+[node name="AreaTablero" type="PanelContainer" parent="." unique_id=598074805]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 20.0
+offset_right = 1128.0
+offset_bottom = 270.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="AreaTablero" unique_id=1898598228]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBoxTablero" type="VBoxContainer" parent="AreaTablero/MarginContainer" unique_id=1910842446]
+layout_mode = 2
+
+[node name="LabelFeedback" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero" unique_id=891261049]
+layout_mode = 2
+text = "[INFO] Selecciona cartas..."
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="AreaTablero/MarginContainer/VBoxTablero" unique_id=2086521610]
+layout_mode = 2
+
+[node name="LabelHistorial" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero" unique_id=1401068073]
+layout_mode = 2
+size_flags_vertical = 6
+autowrap_mode = 2
+
+[node name="LabelFinJuego" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero" unique_id=1916122205]
+visible = false
+layout_mode = 2
+
+[node name="BotonesAccion" type="HBoxContainer" parent="." unique_id=372595230]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 290.0
+offset_right = 384.0
+offset_bottom = 340.0
+alignment = 2
+
+[node name="BotonJugar" type="Button" parent="BotonesAccion" unique_id=880641018]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+
+[node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "LIMPIAR (+5)"
+
+[node name="BotonPasar" type="Button" parent="BotonesAccion" unique_id=1241315057]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "PASAR TURNO"
+
+[node name="BotonGuardar" type="Button" parent="BotonesAccion" unique_id=57529821]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "GUARDAR"
+
+[node name="BotonMenu" type="Button" parent="BotonesAccion" unique_id=1568123389]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "MENÚ"
+
+[node name="ContenedorMano" type="HBoxContainer" parent="." unique_id=1920176933]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 460.0
+offset_right = 1126.0
+offset_bottom = 620.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="GameManager" type="Node" parent="." unique_id=95482145 node_paths=PackedStringArray("vista_ui")]
+script = ExtResource("3_e6fyy")
+vista_ui = NodePath("..")
