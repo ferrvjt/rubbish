@@ -9,7 +9,7 @@ var cartas_a_robar: int = 4
 var turno: int = 1
 var comodines_usados: Array[Carta] = []
 var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA
-var logs: Array[String]: []
+var logs: Array[String] = []
 
 func _init(p_limite: int = 21) -> void:
 	limite_contaminacion = p_limite
@@ -34,7 +34,7 @@ func reducir_contaminacion(cantidad: int) -> void:
 	contaminacion_actual = max(0, contaminacion_actual - cantidad)
 
 func registrar_log(mensaje: String) -> void:
-	log.append(mensaje)
+	logs.append(mensaje)
 	print("[LOG] ", mensaje)
 
 func get_ultimos_logs(cantidad: int = 4) -> Array[String]:
