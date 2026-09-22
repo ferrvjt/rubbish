@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://cca6vtfc0aqhs"]
+
+[ext_resource type="Script" uid="uid://clxvpwtdcglgl" path="res://scripts/main_menu.gd" id="1_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://ctfy7ylw7tarq" path="res://assets/fondo.jpg" id="1_l6cm7"]
+
+[node name="MainMenu" type="Control" unique_id=842060253]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ekxnf")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=1693008742]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_l6cm7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=4275815]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelMenu" type="PanelContainer" parent="CenterContainer" unique_id=718897865]
+custom_minimum_size = Vector2(460, 420)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelMenu" unique_id=1780703738]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxMenu" type="VBoxContainer" parent="CenterContainer/PanelMenu/MarginContainer" unique_id=185161973]
+layout_mode = 2
+
+[node name="LabelTitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=743171341]
+layout_mode = 2
+text = "RUBBISH!"
+horizontal_alignment = 1
+
+[node name="LabelSubtitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=254044901]
+layout_mode = 2
+text = "Gestión Estratégica de Residuos"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=1928100534]
+layout_mode = 2
+
+[node name="BotonNueva" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=2104271907]
+layout_mode = 2
+text = "Nueva Partida"
+
+[node name="BotonCargar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=2064956097]
+layout_mode = 2
+text = "Cargar Partida"
+
+[node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=166343033]
+layout_mode = 2
+text = "Verificando..."
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=1155197468]
+layout_mode = 2
+
+[node name="BotonSalir" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=654229396]
+layout_mode = 2
+text = "Salir"
