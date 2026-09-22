@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://cywtd72o2wlkf"]
+
+[ext_resource type="Script" uid="uid://btvr3sualwlh4" path="res://scripts/main_ui.gd" id="1_e6fyy"]
+[ext_resource type="FontFile" uid="uid://drfn0nkc1jkhh" path="res://assets/PixelPurl.ttf" id="1_fnul3"]
+[ext_resource type="Script" uid="uid://daccsama24hm1" path="res://scripts/game_manager.gd" id="2_513t2"]
+[ext_resource type="Texture2D" uid="uid://bjdvbhmkeav6o" path="res://assets/1274803.jpg" id="2_j6a7c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_metricas"]
+font = ExtResource("1_fnul3")
+font_size = 15
+
+[sub_resource type="LabelSettings" id="LabelSettings_feedback"]
+font = ExtResource("1_fnul3")
+font_size = 17
+font_color = Color(1, 0.95, 0.35, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_historial"]
+font = ExtResource("1_fnul3")
+font_size = 13
+font_color = Color(0.88, 0.88, 0.88, 0.95)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fin"]
+font = ExtResource("1_fnul3")
+font_size = 24
+font_color = Color(1, 0.2, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tablero"]
+bg_color = Color(0.06, 0.08, 0.12, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.45, 0.6, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_metricas"]
+bg_color = Color(0.06, 0.08, 0.12, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.45, 0.6, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MainUI" type="Control" unique_id=670737785]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_e6fyy")
+
+[node name="FondoTablero" type="TextureRect" parent="." unique_id=1464886222]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_j6a7c")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PanelMetricasContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 324.0
+offset_bottom = 270.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_metricas")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelMetricasContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="PanelMetricas" type="VBoxContainer" parent="PanelMetricasContainer/MarginContainer" unique_id=530987595]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="LabelTurno" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas"]
+layout_mode = 2
+text = "Turno: 1"
+label_settings = SubResource("LabelSettings_metricas")
+
+[node name="LabelContaminacion" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=417471950]
+layout_mode = 2
+text = "Contaminación: 0 / 21"
+label_settings = SubResource("LabelSettings_metricas")
+
+[node name="LabelPuntos" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1522305066]
+layout_mode = 2
+text = "Puntos Reducción: 0"
+label_settings = SubResource("LabelSettings_metricas")
+
+[node name="LabelMazo" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas"]
+layout_mode = 2
+text = "Mazo: 0 cartas"
+label_settings = SubResource("LabelSettings_metricas")
+
+[node name="LabelComodines" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas"]
+layout_mode = 2
+text = "Comodines Usados: 0"
+label_settings = SubResource("LabelSettings_metricas")
+
+[node name="AreaTablero" type="PanelContainer" parent="." unique_id=1718355001]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 20.0
+offset_right = 1128.0
+offset_bottom = 270.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tablero")
+
+[node name="MarginContainer" type="MarginContainer" parent="AreaTablero"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBoxTablero" type="VBoxContainer" parent="AreaTablero/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelFeedback" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero"]
+layout_mode = 2
+text = "[INFO] Selecciona cartas y presiona JUGAR para activar combos."
+label_settings = SubResource("LabelSettings_feedback")
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="AreaTablero/MarginContainer/VBoxTablero"]
+layout_mode = 2
+
+[node name="LabelHistorial" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "[INICIO] Partida iniciada. Limpia el entorno sin alcanzar 21 de contaminación."
+label_settings = SubResource("LabelSettings_historial")
+autowrap_mode = 2
+
+[node name="LabelFinJuego" type="Label" parent="AreaTablero/MarginContainer/VBoxTablero"]
+visible = false
+layout_mode = 2
+text = "[FIN DEL JUEGO]"
+label_settings = SubResource("LabelSettings_fin")
+horizontal_alignment = 1
+
+[node name="BotonesAccion" type="HBoxContainer" parent="." unique_id=1545994495]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 290.0
+offset_right = 1128.0
+offset_bottom = 340.0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="BotonJugar" type="Button" parent="BotonesAccion"]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "JUGAR (0)"
+
+[node name="BotonLimpiar" type="Button" parent="BotonesAccion"]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "LIMPIAR (+5)"
+
+[node name="BotonPasar" type="Button" parent="BotonesAccion" unique_id=625433225]
+custom_minimum_size = Vector2(150, 42)
+layout_mode = 2
+text = "PASAR TURNO"
+
+[node name="BotonGuardar" type="Button" parent="BotonesAccion" unique_id=1362153494]
+custom_minimum_size = Vector2(110, 42)
+layout_mode = 2
+text = "GUARDAR"
+
+[node name="BotonMenu" type="Button" parent="BotonesAccion"]
+custom_minimum_size = Vector2(110, 42)
+layout_mode = 2
+text = "MENÚ"
+
+[node name="ContenedorMano" type="HBoxContainer" parent="." unique_id=1708989187]
+custom_minimum_size = Vector2(1100, 130)
+layout_mode = 0
+offset_left = 26.0
+offset_top = 460.0
+offset_right = 1126.0
+offset_bottom = 620.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="GameManager" type="Node" parent="." unique_id=695510446 node_paths=PackedStringArray("vista_ui")]
+script = ExtResource("2_513t2")
+vista_ui = NodePath("..")

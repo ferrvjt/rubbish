@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_menu_script"]
+[ext_resource type="Texture2D" uid="uid://bjdvbhmkeav6o" path="res://assets/1274803.jpg" id="2_fondo"]
+[ext_resource type="FontFile" uid="uid://drfn0nkc1jkhh" path="res://assets/PixelPurl.ttf" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_menu"]
+bg_color = Color(0.06, 0.08, 0.12, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.45, 0.6, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_titulo"]
+font = ExtResource("3_font")
+font_size = 42
+font_color = Color(0.9, 0.98, 0.8, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitulo"]
+font = ExtResource("3_font")
+font_size = 16
+font_color = Color(0.7, 0.85, 0.75, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_info"]
+font = ExtResource("3_font")
+font_size = 12
+font_color = Color(0.75, 0.75, 0.75, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu_script")
+
+[node name="Fondo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_fondo")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelMenu" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(460, 420)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_menu")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBoxMenu" type="VBoxContainer" parent="CenterContainer/PanelMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="LabelTitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+layout_mode = 2
+text = "RUBBISH"
+label_settings = SubResource("LabelSettings_titulo")
+horizontal_alignment = 1
+
+[node name="LabelSubtitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+layout_mode = 2
+text = "Gestión Estratégica de Residuos"
+label_settings = SubResource("LabelSettings_subtitulo")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+layout_mode = 2
+
+[node name="BotonNueva" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "NUEVA PARTIDA"
+
+[node name="BotonCargar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "CARGAR PARTIDA"
+
+[node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+layout_mode = 2
+text = "Verificando partida guardada..."
+label_settings = SubResource("LabelSettings_info")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+layout_mode = 2
+
+[node name="BotonSalir" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "SALIR"

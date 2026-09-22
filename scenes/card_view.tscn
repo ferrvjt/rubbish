@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://spalxu3yakrt"]
+
+[ext_resource type="Texture2D" uid="uid://cjqptlre7f2li" path="res://assets/BaseCard_organic.png" id="1_1dx1k"]
+[ext_resource type="Script" uid="uid://cu10ccf817eps" path="res://scripts/card_view.gd" id="1_o1ium"]
+[ext_resource type="Texture2D" uid="uid://d2c5r5khjsk7n" path="res://assets/icons/apple.png" id="2_o1ium"]
+[ext_resource type="FontFile" uid="uid://drfn0nkc1jkhh" path="res://assets/PixelPurl.ttf" id="3_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_valor"]
+font = ExtResource("3_font")
+font_color = Color(0.04, 0.1, 0.2, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nombre"]
+font = ExtResource("3_font")
+font_size = 11
+font_color = Color(0.04, 0.1, 0.2, 1)
+
+[node name="Cardview" type="Control" unique_id=1023485390]
+custom_minimum_size = Vector2(84, 112)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 84.0
+offset_bottom = 112.0
+script = ExtResource("1_o1ium")
+
+[node name="BaseCard" type="TextureRect" parent="." unique_id=2113334645]
+custom_minimum_size = Vector2(84, 112)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_1dx1k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="." unique_id=2106992204]
+custom_minimum_size = Vector2(48, 40)
+layout_mode = 0
+offset_left = 18.0
+offset_top = 35.0
+offset_right = 66.0
+offset_bottom = 75.0
+mouse_filter = 2
+texture = ExtResource("2_o1ium")
+stretch_mode = 5
+
+[node name="LabelValor" type="Label" parent="." unique_id=1279731863]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 0
+offset_left = 47.0
+offset_top = 78.0
+offset_right = 75.0
+offset_bottom = 108.0
+text = "3"
+label_settings = SubResource("LabelSettings_valor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelName" type="Label" parent="." unique_id=1975693506]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 15.0
+offset_right = 80.0
+offset_bottom = 37.0
+text = "Manzana"
+label_settings = SubResource("LabelSettings_nombre")
+horizontal_alignment = 1
+vertical_alignment = 1
