@@ -3,7 +3,7 @@ extends RefCounted
 
 const RUTA_GUARDADO: String = "user://partida_guardada.json"
 
-# Variable estática para transferir la partida cargada desde MainMenu a GameManager[cite: 20]
+# Variable estática para transferir la partida cargada desde MainMenu a GameManager
 static var partida_cargada_pendiente: Dictionary = {}
 
 static func hay_partida_guardada() -> bool:
