@@ -2,9 +2,9 @@ class_name Carta
 extends RefCounted
 
 enum Tipo {
-    RESIDUO,
-    TRATAMIENTO,
-    COMODIN
+	RESIDUO,
+	TRATAMIENTO,
+	COMODIN
 }
 
 enum Categoria {

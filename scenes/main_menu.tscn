@@ -43,37 +43,67 @@ theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="VBoxMenu" type="VBoxContainer" parent="CenterContainer/PanelMenu/MarginContainer" unique_id=185161973]
+[node name="MenuPrincipal" type="VBoxContainer" parent="CenterContainer/PanelMenu/MarginContainer" unique_id=185161973]
 layout_mode = 2
 
-[node name="LabelTitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=743171341]
+[node name="LabelTitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=743171341]
 layout_mode = 2
 text = "RUBBISH!"
 horizontal_alignment = 1
 
-[node name="LabelSubtitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=254044901]
+[node name="LabelSubtitulo" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=254044901]
 layout_mode = 2
 text = "Gestión Estratégica de Residuos"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=1928100534]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=1928100534]
 layout_mode = 2
 
-[node name="BotonNueva" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=2104271907]
+[node name="BotonNueva" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=2104271907]
 layout_mode = 2
 text = "Nueva Partida"
 
-[node name="BotonCargar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=2064956097]
+[node name="BotonCargar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=2064956097]
 layout_mode = 2
 text = "Cargar Partida"
 
-[node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=166343033]
+[node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=166343033]
 layout_mode = 2
 text = "Verificando..."
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=1155197468]
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=1155197468]
 layout_mode = 2
 
-[node name="BotonSalir" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/VBoxMenu" unique_id=654229396]
+[node name="BotonSalir" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=654229396]
 layout_mode = 2
 text = "Salir"
+
+[node name="MenuModos" type="VBoxContainer" parent="CenterContainer/PanelMenu/MarginContainer" unique_id=538143738]
+visible = false
+layout_mode = 2
+
+[node name="LabelTituloModos" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1228921433]
+layout_mode = 2
+text = "SELECCIONA UN MODO"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1754624705]
+layout_mode = 2
+
+[node name="BotonModoEstandar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=932024806]
+layout_mode = 2
+text = "MODO ESTANDAR"
+
+[node name="BotonModoInfinito" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1824662851]
+layout_mode = 2
+
+[node name="BotonModoReto" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1626467338]
+layout_mode = 2
+text = "RETO TÓXICO"
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=627767394]
+layout_mode = 2
+
+[node name="BotonVolver" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=383491091]
+layout_mode = 2
+text = "VOLVER
+"
