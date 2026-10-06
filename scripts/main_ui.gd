@@ -11,9 +11,10 @@ signal guardar_juego
 
 # Métricas
 @onready var label_turno: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelTurno
-@onready var label_contaminacion: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelContaminacion
-@onready var label_puntos: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelPuntos
-@onready var label_mazo: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelMazo
+@onready var barra_contaminacion: TextureProgressBar = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/BarraContaminacion
+@onready var titulo_contaminacion: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/TituloContaminacion
+@onready var valor_puntos: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorPuntos/ValorPuntos
+@onready var valor_mazo: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorMazo/ValorMazo
 @onready var label_comodines: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelComodines
 
 # Botones deAcción
@@ -67,16 +68,29 @@ func renderizar_mano(mano: Array[Carta]) -> void:
 func actualizar_metricas(turno: int, contaminacion: int, limite_contam: int, puntos: int, cartas_mazo: int, comodines_usados: int) -> void:
 	if label_turno != null:
 		label_turno.text = "Turno: " + str(turno)
-	if label_contaminacion != null:
-		label_contaminacion.text = "Contaminación: " + str(contaminacion) + " / " + str(limite_contam)
+		
+	if barra_contaminacion != null:
+		barra_contaminacion.max_value = limite_contam
+		# Animación suave de la barra usando un Tween
+		var tween = create_tween()
+		tween.tween_property(barra_contaminacion, "value", contaminacion, 0.3).set_trans(Tween.TRANS_SINE)
+		
+		# Cambiar color de la barra si hay peligro (más de 16 de contaminación)
 		if contaminacion >= limite_contam - 4:
-			label_contaminacion.modulate = Color(1.0, 0.35, 0.35)
+			barra_contaminacion.tint_progress = Color(1.0, 0.35, 0.35) # Rojo
+			titulo_contaminacion.text = "CONTAMINACIÓN (¡PELIGRO!)"
+			titulo_contaminacion.modulate = Color(1.0, 0.35, 0.35)
 		else:
-			label_contaminacion.modulate = Color(1, 1, 1)
-	if label_puntos != null:
-		label_puntos.text = "Puntos Reducción: " + str(puntos)
-	if label_mazo != null:
-		label_mazo.text = "Mazo Restante: " + str(cartas_mazo) + " cartas"
+			barra_contaminacion.tint_progress = Color(0.4, 1.0, 0.4) # Verde
+			titulo_contaminacion.text = "CONTAMINACIÓN: " + str(contaminacion) + "/" + str(limite_contam)
+			titulo_contaminacion.modulate = Color(1, 1, 1)
+			
+	if valor_puntos != null:
+		valor_puntos.text = str(puntos) + " Pts"
+		
+	if valor_mazo != null:
+		valor_mazo.text = "x" + str(cartas_mazo)
+		
 	if label_comodines != null:
 		label_comodines.text = "Comodines Usados: " + str(comodines_usados)
 

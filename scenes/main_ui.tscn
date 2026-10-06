@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://btvr3sualwlh4" path="res://scripts/main_ui.gd" id="1_513t2"]
 [ext_resource type="Texture2D" uid="uid://ctfy7ylw7tarq" path="res://assets/fondo.jpg" id="1_fnul3"]
+[ext_resource type="Texture2D" uid="uid://bwu5csyysda48" path="res://assets/progress_bg.png" id="3_46p8p"]
 [ext_resource type="Script" uid="uid://d1t2e0vnxv5sl" path="res://scripts/game_manager.gd" id="3_e6fyy"]
+[ext_resource type="Texture2D" uid="uid://d24eg0ulx864w" path="res://assets/bars/bar_gold.png" id="4_okuri"]
+[ext_resource type="Texture2D" uid="uid://dl5vtx38j6gvx" path="res://assets/coin.png" id="5_kyx1g"]
+[ext_resource type="Texture2D" uid="uid://dylnkgju27u0q" path="res://assets/BackCard.png" id="6_r8eje"]
 
 [node name="MainUI" type="Control" unique_id=496830009]
 layout_mode = 3
@@ -49,17 +53,53 @@ theme_override_constants/separation = 10
 [node name="LabelTurno" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1217143847]
 layout_mode = 2
 
-[node name="LabelContaminacion" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=392579233]
-layout_mode = 2
-
-[node name="LabelPuntos" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1153859651]
-layout_mode = 2
-
-[node name="LabelMazo" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1507351064]
-layout_mode = 2
-
 [node name="LabelComodines" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=945264301]
 layout_mode = 2
+
+[node name="ContenedorContaminacion" type="VBoxContainer" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1934207220]
+layout_mode = 2
+
+[node name="TituloContaminacion" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion" unique_id=368278200]
+layout_mode = 2
+text = "CONTAMINACIÓN"
+
+[node name="BarraContaminacion" type="TextureProgressBar" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion" unique_id=574642238]
+custom_minimum_size = Vector2(250, 20)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+max_value = 21.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_46p8p")
+texture_progress = ExtResource("4_okuri")
+tint_progress = Color(0, 1, 0.5529412, 1)
+
+[node name="ContenedorPuntos" type="HBoxContainer" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1095348006]
+layout_mode = 2
+
+[node name="IconoPuntos" type="TextureRect" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorPuntos" unique_id=1687927398]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("5_kyx1g")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ValorPuntos" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorPuntos" unique_id=22220906]
+layout_mode = 2
+text = "0"
+
+[node name="ContenedorMazo" type="HBoxContainer" parent="PanelMetricasContainer/MarginContainer/PanelMetricas" unique_id=1307625516]
+layout_mode = 2
+
+[node name="IconoMazo" type="TextureRect" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorMazo" unique_id=197975424]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("6_r8eje")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ValorMazo" type="Label" parent="PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorMazo" unique_id=1823209763]
+layout_mode = 2
+text = "40"
 
 [node name="AreaTablero" type="PanelContainer" parent="." unique_id=598074805]
 layout_mode = 0
