@@ -33,6 +33,7 @@ static func guardar_partida(estado: EstadoJuego, mano: Array[Carta] = [], comodi
 		comodines_serializados.append(serializar_carta.call(c))
 
 	var datos_partida: Dictionary = {
+		"modo_juego":estado.modo_juego,
 		"puntos_reduccion": estado.get_puntos_reduccion(),
 		"contaminacion_actual": estado.get_contaminacion_actual(),
 		"limite_contaminacion": estado.limite_contaminacion,
@@ -82,9 +83,10 @@ static func obtener_resumen_guardado() -> String:
 	var datos = cargar_partida_datos()
 	if datos.is_empty():
 		return "No hay partida guardada."
+	var modo = datos.get("modo_juego", "ESTANDAR")
 	var turno = datos.get("turno", 1)
 	var contam = datos.get("contaminacion_actual", 0)
 	var limite = datos.get("limite_contaminacion", 21)
 	var pts = datos.get("puntos_reduccion", 0)
 	var fecha = datos.get("fecha_guardado", "")
-	return "Turno %d | Contaminación: %d/%d | Puntos: %d\nFecha: %s" % [turno, contam, limite, pts, fecha]
+	return "Modo: %s | Turno %d | Contaminación: %d/%d | Puntos: %d\nFecha: %s" % [turno, contam, limite, pts, fecha]
