@@ -23,26 +23,63 @@ func _iniciar_o_cargar() -> void:
 	else:
 		iniciar_partida("ESTANDAR")
 
-func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR") -> void:
-	# 1. Instanciar Partida y Mazo
+func iniciar_partida(es_tutorial: bool = false) -> void:
 	estado = EstadoJuego.new(21)
-	estado.modo_juego = modo_juego_seleccionado
+	estado.en_tutorial = es_tutorial
+	estado.paso_tutorial = 0
 	mazo = Mazo.new()
-
-	# 2. Cargar cartas y barajar
 	mazo.cargar_desde_json("res://assets/cartas_base.json")
 	mano_actual.clear()
-
-	# 3. Conectar señales con MainUI
 	conectar_senales()
 
-	# 4. Robar mano inicial
-	robar_cartas(estado.cartas_a_robar)
+	if estado.en_tutorial:
+		ejecutar_paso_tutorial()
+	else:
+		robar_cartas(estado.cartas_a_robar)
+		actualizar_pantalla()
+		if vista_ui != null:
+			vista_ui.set_estado_botones(true, true, true)
+			vista_ui.mostrar_feedback("[INFO] Turno 1 iniciado. Selecciona cartas y presiona JUGAR.", Color(0.4, 1.0, 0.7))
 
-	# 5. Actualizar vista inicial
+func ejecutar_paso_tutorial() -> void:
+	mano_actual.clear() # Limpiamos la mano para forzar cartas
+	
+	if estado.paso_tutorial == 0:
+		# Forzamos 2 orgánicos y 1 reciclable para enseñar los pares
+		mano_actual.append(extraer_carta_especifica(Carta.Categoria.ORGANICO))
+		mano_actual.append(extraer_carta_especifica(Carta.Categoria.ORGANICO))
+		mano_actual.append(extraer_carta_especifica(Carta.Categoria.RECICLABLE))
+		
+		vista_ui.set_estado_botones(true, false, false) # Bloqueamos Limpiar y Pasar
+		vista_ui.mostrar_feedback("[TUTORIAL 1/2] Selecciona SÓLO los 2 Residuos Orgánicos y presiona JUGAR.", Color.CYAN)
+		
+	elif estado.paso_tutorial == 1:
+		# Forzamos 1 E-Waste para enseñar penalizaciones
+		mano_actual.append(extraer_carta_especifica(Carta.Categoria.EWASTE))
+		mano_actual.append(extraer_carta_especifica(Carta.Categoria.RECICLABLE))
+		
+		vista_ui.set_estado_botones(true, false, false)
+		vista_ui.mostrar_feedback("[TUTORIAL 2/2] ¡Bien! Ahora procesa el E-Waste solo (Suma pts, pero daña).", Color.CYAN)
+		
+	else:
+		# Fin del tutorial
+		estado.en_tutorial = false
+		estado.registrar_log("[TUTORIAL] Tutorial completado. ¡Inicia el juego real!")
+		vista_ui.set_estado_botones(true, true, true)
+		vista_ui.mostrar_feedback("[EXITO] ¡Tutorial superado! Buena suerte.", Color.GREEN)
+		
+		# Robamos cartas normales para llenar la mano
+		robar_cartas(4)
+		
 	actualizar_pantalla()
-	if vista_ui != null:
-		vista_ui.mostrar_feedback("[INFO] Turno 1 iniciado. Selecciona cartas y presiona JUGAR.", Color(0.4, 1.0, 0.7))
+
+func extraer_carta_especifica(categoria_buscada: Carta.Categoria) -> Carta:
+	for i in range(mazo.cartas.size()):
+		if mazo.cartas[i].categoria == categoria_buscada:
+			var carta_encontrada = mazo.cartas[i]
+			mazo.cartas.remove_at(i)
+			return carta_encontrada
+	return null
 
 func cargar_desde_datos(datos: Dictionary) -> void:
 	conectar_senales()
@@ -171,6 +208,19 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 			vista_ui.mostrar_feedback("[AVISO] Selecciona al menos una carta para jugar.", Color(1.0, 0.5, 0.5))
 		return
 
+	if estado.en_tutorial and estado.paso_tutorial == 0:
+			estado.paso_tutorial = 1
+			ejecutar_paso_tutorial()
+	if estado.en_tutorial:
+		if estado.paso_tutorial == 0:
+			if cartas_sel.size() != 2 or not todos_del_tipo(cartas_sel, Carta.Categoria.ORGANICO):
+				vista_ui.mostrar_feedback("[ERROR TUTORIAL] No es correcto. Selecciona EXACTAMENTE los 2 orgánicos.", Color(1.0, 0.3, 0.3))
+				return
+		elif estado.paso_tutorial == 1:
+			if cartas_sel.size() != 1 or not cartas_sel[0].es_ewaste():
+				vista_ui.mostrar_feedback("[ERROR TUTORIAL] Selecciona SÓLO la carta E-Waste.", Color(1.0, 0.3, 0.3))
+				return
+
 	# 0. JUGAR AS (Limpia -5 Contaminación)
 	if cartas_sel.size() == 1 and cartas_sel[0].es_as():
 		descartar_cartas(cartas_sel)
@@ -291,6 +341,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 					vista_ui.mostrar_feedback(msg, Color(0.4, 1.0, 0.6))
 				actualizar_pantalla()
 				return
+				
 
 	# 5. E-WASTE INDIVIDUAL: 1 E-Waste solo -> Valor * 1.5 pts, +3 Contaminación
 	if cartas_sel.size() == 1 and cartas_sel[0].es_ewaste():
@@ -305,6 +356,10 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 		actualizar_pantalla()
 		verificar_fin_juego()
 		return
+
+	if estado.en_tutorial and estado.paso_tutorial == 1:
+			estado.paso_tutorial = 2
+			ejecutar_paso_tutorial()
 
 	# Combinación no válida
 	var msg_error = "[ERROR] Combinación no válida. Revisa los combos válidos."
