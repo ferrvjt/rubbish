@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dl5vtx38j6gvx" path="res://assets/coin.png" id="5_kyx1g"]
 [ext_resource type="Texture2D" uid="uid://dylnkgju27u0q" path="res://assets/BackCard.png" id="6_r8eje"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd3vc"]
+bg_color = Color(0.107773975, 0.25040835, 0.32072106, 0.7882353)
+
 [node name="MainUI" type="Control" unique_id=496830009]
 layout_mode = 3
 anchors_preset = 15
@@ -148,6 +151,7 @@ alignment = 2
 [node name="BotonJugar" type="Button" parent="BotonesAccion" unique_id=880641018]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
+text = "Jugar (0)"
 
 [node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
 custom_minimum_size = Vector2(130, 42)
@@ -181,3 +185,66 @@ alignment = 1
 [node name="GameManager" type="Node" parent="." unique_id=95482145 node_paths=PackedStringArray("vista_ui")]
 script = ExtResource("3_e6fyy")
 vista_ui = NodePath("..")
+
+[node name="PanelCombos" type="Panel" parent="." unique_id=914961399]
+layout_mode = 0
+offset_left = -300.0
+offset_top = 100.0
+offset_bottom = 550.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gd3vc")
+
+[node name="BotonToggleCombos" type="Button" parent="PanelCombos" unique_id=1560721615]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 165.0
+offset_right = 340.0
+offset_bottom = 285.0
+text = "C
+O
+M
+B
+O
+S"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelCombos" unique_id=435072488]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelCombos/MarginContainer" unique_id=2057536024]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1801714011]
+layout_mode = 2
+text = "Combos Válidos:"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1039646809]
+layout_mode = 2
+text = "🍎 Par Orgánico: Suma x 2."
+
+[node name="Label3" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=265564750]
+layout_mode = 2
+text = "♻️ Tercia Reciclable: Suma x 3
+ + Recupera Comodín."
+
+[node name="Label4" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1290124028]
+layout_mode = 2
+text = "🔋 Par E-Waste: Suma x 3 
+(+1 Contaminación)."
+
+[node name="Label5" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2044824948]
+layout_mode = 2
+text = "☢️ AntiToxic + E-Waste: 
+Anula tóxicos"
+
+[node name="Label6" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=606489457]
+layout_mode = 2
+text = "☢️ E-waste x 3."
+
+[node name="Label7" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1322531255]
+layout_mode = 2
+text = "🌱 Limpieza: -5 Contaminación."

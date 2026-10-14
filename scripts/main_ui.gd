@@ -29,6 +29,11 @@ signal guardar_juego
 @onready var label_historial: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelHistorial
 @onready var label_fin_juego: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelFinJuego
 
+# Panel de Combos Retráctil
+@onready var panel_combos: Panel = $PanelCombos
+@onready var boton_toggle_combos: Button = $PanelCombos/BotonToggleCombos
+var panel_combos_abierto: bool = false
+
 const CARTA_VIEW_SCENE = preload("res://scenes/card_view.tscn")
 
 var cartas_seleccionadas: Array[Carta] = []
@@ -44,6 +49,8 @@ func _ready() -> void:
 		boton_guardar.pressed.connect(_on_boton_guardar_pressed)
 	if boton_menu != null and not boton_menu.pressed.is_connected(_on_boton_menu_pressed):
 		boton_menu.pressed.connect(_on_boton_menu_pressed)
+	if boton_toggle_combos != null:
+		boton_toggle_combos.pressed.connect(_on_boton_toggle_combos_pressed)
 		
 	_actualizar_boton_jugar()
 
@@ -154,3 +161,24 @@ func _on_boton_guardar_pressed() -> void:
 
 func _on_boton_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _on_boton_toggle_combos_pressed() -> void:
+	panel_combos_abierto = not panel_combos_abierto
+
+	# Cambiar texto de boton
+	if panel_combos_abierto:
+		boton_toggle_combos.text = "<"
+	else:
+		boton_toggle_combos.text = ">"
+
+	# Animación (Tween)
+	var tween = create_tween()
+
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	if panel_combos_abierto:
+		# Mueve el panel hacia adentro de la pantalla
+		tween.tween_property(panel_combos, "position:x", 0.0, 0.4)
+	else:
+		# Oculta el panel dejándolo fuera de la pantalla
+		tween.tween_property(panel_combos, "position:x", -300.0, 0.4)
