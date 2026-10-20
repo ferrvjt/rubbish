@@ -35,6 +35,7 @@ signal guardar_juego
 var panel_combos_abierto: bool = false
 
 const CARTA_VIEW_SCENE = preload("res://scenes/card_view.tscn")
+const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 
 var cartas_seleccionadas: Array[Carta] = []
 
@@ -182,3 +183,10 @@ func _on_boton_toggle_combos_pressed() -> void:
 	else:
 		# Oculta el panel dejándolo fuera de la pantalla
 		tween.tween_property(panel_combos, "position:x", -300.0, 0.4)
+
+func disparar_vfx(texto: String, posicion: Vector2, color_hex: String = "#FFD700") -> void:
+	var vfx = COMBO_VFX_SCENE.instantiate()
+	add_child(vfx)
+	
+	if vfx.has_method("configurar"):
+		vfx.configurar(texto, posicion, color_hex)
