@@ -51,9 +51,16 @@ func _mostrar_menu_principal() -> void:
 	menu_modos.visible= false
 
 func _iniciar_nueva_partida(modo_seleccionado: String)-> void:
+	var perfil = PersistenciaManager.cargar_perfil()
+	var modo_final = modo_seleccionado
+	
+	if not perfil.get("tutorial_completado", false):
+		modo_final = "TUTORIAL"
+		print("[MENU] Primera vez jugando.Forzando modo TUTORIAL.")
+	
 	PersistenciaManager.partida_cargada_pendiente = {
 		"es_nueva_partida": true,
-		"modo_juego": modo_seleccionado
+		"modo_juego": modo_final
 	}
 	get_tree().change_scene_to_file("res://scenes/main_ui.tscn")
 

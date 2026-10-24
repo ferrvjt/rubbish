@@ -2,6 +2,7 @@ class_name PersistenciaManager
 extends RefCounted
 
 const RUTA_GUARDADO: String = "user://partida_guardada.json"
+const RUTA_PERFIL: String = "user://perfil.json"
 
 # Variable estática para transferir la partida cargada desde MainMenu a GameManager[cite: 20]
 static var partida_cargada_pendiente: Dictionary = {}
@@ -78,6 +79,29 @@ static func cargar_partida_datos() -> Dictionary:
 		return {}
 
 	return json.data as Dictionary
+
+static func cargar_perfil() -> Dictionary:
+	if not FileAccess.file_exists(RUTA_PERFIL):
+		return {"tutorial_completado": false}
+	var archivo = FileAccess.open(RUTA_PERFIL, FileAccess.READ)
+	if archivo == null:
+		return {"tutorial_completado": false}
+	var texto_json: String = archivo.get_as_text()
+	archivo.close()
+	var json = JSON.new()
+	if json.parse(texto_json)== OK:
+		return json.data as Dictionary
+	return {"tutorial_completado": false}
+
+static func guardar_perfil(datos: Dictionary) -> void:
+	var archivo = FileAccess.open(RUTA_PERFIL,FileAccess.WRITE)
+	if archivo != null:
+		var texto_json = JSON.stringify(datos, "\t")
+		archivo.store_string(texto_json)
+		archivo.close()
+		print("Perfil guardado en: ", RUTA_PERFIL)
+	else :
+		push_error("PersistenciaManager: Error al guardar el perfil.")
 
 static func obtener_resumen_guardado() -> String:
 	var datos = cargar_partida_datos()
