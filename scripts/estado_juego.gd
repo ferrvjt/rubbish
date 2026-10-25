@@ -10,6 +10,7 @@ var turno: int = 1
 var comodines_usados: Array[Carta] = []
 var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA
 var logs: Array[String] = []
+var modo_juego: String = "ESTANDAR" # Opciones: "ESTANDAR", "INFINITO", "RETO_TOXICO"
 
 func _init(p_limite: int = 21) -> void:
 	limite_contaminacion = p_limite

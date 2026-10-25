@@ -14,13 +14,19 @@ func _iniciar_o_cargar() -> void:
 	if not PersistenciaManager.partida_cargada_pendiente.is_empty():
 		var datos = PersistenciaManager.partida_cargada_pendiente.duplicate()
 		PersistenciaManager.partida_cargada_pendiente.clear()
-		cargar_desde_datos(datos)
+		
+		if datos.get("es_nueva_partida", false) == true:
+			iniciar_partida(datos.get("modo_juego", "ESTANDAR"))
+		else:
+			cargar_desde_datos(datos)
+			
 	else:
-		iniciar_partida()
+		iniciar_partida("ESTANDAR")
 
-func iniciar_partida() -> void:
+func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR") -> void:
 	# 1. Instanciar Partida y Mazo
 	estado = EstadoJuego.new(21)
+	estado.modo_juego = modo_juego_seleccionado
 	mazo = Mazo.new()
 
 	# 2. Cargar cartas y barajar
@@ -43,6 +49,7 @@ func cargar_desde_datos(datos: Dictionary) -> void:
 	
 	# 1. Reconstruir estado
 	estado = EstadoJuego.new(datos.get("limite_contaminacion", 21))
+	estado.modo_juego = datos.get("modo_juego", "ESTANDAR")
 	estado.actualizar_puntos(datos.get("puntos_reduccion", 0))
 	estado.incrementar_contaminacion(datos.get("contaminacion_actual", 0))
 	estado.turno = datos.get("turno", 1)

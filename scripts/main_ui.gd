@@ -26,7 +26,10 @@ signal guardar_juego
 
 # Retroalimentación en Tablero
 @onready var label_feedback: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelFeedback
-@onready var label_historial: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelHistorial
+@onready var boton_historial: Button = $BotonesAccion/BotonHistorial
+@onready var modal_historial: ColorRect = $ModalHistorial
+@onready var texto_historial: RichTextLabel = $ModalHistorial/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TextoHistorial
+@onready var boton_cerrar_historial: Button = $ModalHistorial/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BotonCerrarHistorial
 @onready var label_fin_juego: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelFinJuego
 
 # Panel de Combos Retráctil
@@ -52,6 +55,10 @@ func _ready() -> void:
 		boton_menu.pressed.connect(_on_boton_menu_pressed)
 	if boton_toggle_combos != null:
 		boton_toggle_combos.pressed.connect(_on_boton_toggle_combos_pressed)
+	if boton_historial != null:
+		boton_historial.pressed.connect(_on_abrir_historial)
+	if boton_cerrar_historial != null:
+		boton_cerrar_historial.pressed.connect(_on_cerrar_historial)
 		
 	_actualizar_boton_jugar()
 
@@ -108,12 +115,12 @@ func mostrar_feedback(mensaje: String, color: Color = Color(1.0, 0.95, 0.35)) ->
 		label_feedback.modulate = color
 
 func actualizar_historial(logs: Array[String]) -> void:
-	if label_historial != null and logs.size() > 0:
-		var lineas: Array[String] = []
-		var cantidad = min(4, logs.size())
-		for i in range(logs.size() - cantidad, logs.size()):
-			lineas.append(logs[i])
-		label_historial.text = "\n".join(lineas)
+	if texto_historial != null and logs.size() > 0:
+		texto_historial.text = "\n\n".join(logs)
+		
+		var scrollbar = texto_historial.get_v_scroll_bar()
+		if scrollbar:
+			scrollbar.value = scrollbar.max_value
 
 func mostrar_fin_juego(mensaje: String, es_victoria: bool) -> void:
 	if label_fin_juego != null:
@@ -190,3 +197,10 @@ func disparar_vfx(texto: String, posicion: Vector2, color_hex: String = "#FFD700
 	
 	if vfx.has_method("configurar"):
 		vfx.configurar(texto, posicion, color_hex)
+func _on_abrir_historial() -> void:
+	if modal_historial != null:
+		modal_historial.visible = true
+
+func _on_cerrar_historial() -> void:
+	if modal_historial != null:
+		modal_historial.visible = false
