@@ -204,3 +204,11 @@ func _on_abrir_historial() -> void:
 func _on_cerrar_historial() -> void:
 	if modal_historial != null:
 		modal_historial.visible = false
+
+func set_estado_botones(puede_jugar: bool, puede_limpiar: bool, puede_pasar: bool) -> void:
+	if boton_jugar != null:
+		boton_jugar.disabled = not puede_jugar
+	if boton_limpiar != null:
+		boton_limpiar.disabled = not puede_limpiar
+	if boton_pasar != null:
+		boton_pasar.disabled = not puede_pasar
