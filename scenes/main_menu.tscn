@@ -95,6 +95,7 @@ text = "MODO ESTANDAR"
 
 [node name="BotonModoInfinito" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1824662851]
 layout_mode = 2
+text = "MODO INFINITO"
 
 [node name="BotonModoReto" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuModos" unique_id=1626467338]
 layout_mode = 2

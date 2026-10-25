@@ -113,4 +113,5 @@ static func obtener_resumen_guardado() -> String:
 	var limite = datos.get("limite_contaminacion", 21)
 	var pts = datos.get("puntos_reduccion", 0)
 	var fecha = datos.get("fecha_guardado", "")
-	return "Modo: %s | Turno %d | Contaminación: %d/%d | Puntos: %d\nFecha: %s" % [turno, contam, limite, pts, fecha]
+	# Se añade 'modo' al inicio del arreglo de parámetros
+	return "Modo: %s | Turno %d | Contaminación: %d/%d | Puntos: %d\nFecha: %s" % [modo, turno, contam, limite, pts, fecha]
