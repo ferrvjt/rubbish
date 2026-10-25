@@ -181,7 +181,7 @@
 	"tipo": 0,
 	"valor": 6,
 	"base_texture": "res://assets/BaseCard_toxic.png",
-	"icon_texture": "res://assets/icons/toxic_waste.png"
+	"icon_texture": "res://assets/icons/toxic_barrel.png"
   },
   {
 	"id": "toxic_waste_02",
@@ -189,7 +189,7 @@
 	"tipo": 0,
 	"valor": 6,
 	"base_texture": "res://assets/BaseCard_toxic.png",
-	"icon_texture": "res://assets/icons/toxic_waste.png"
+	"icon_texture": "res://assets/icons/toxic_barrel.png"
   },
   {
 	"id": "toxic_waste_03",
@@ -197,7 +197,7 @@
 	"tipo": 0,
 	"valor": 7,
 	"base_texture": "res://assets/BaseCard_toxic.png",
-	"icon_texture": "res://assets/icons/toxic_waste.png"
+	"icon_texture": "res://assets/icons/toxic_barrel.png"
   },
   {
 	"id": "toxic_bio_01",

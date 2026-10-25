@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cipwi2dfqb8oo"]
+
+[ext_resource type="Script" uid="uid://bjr38lbyiacwl" path="res://scripts/combo_vfx.gd" id="1_fmumg"]
+
+[node name="ComboVFX" type="Node2D" unique_id=1664678669]
+script = ExtResource("1_fmumg")
+
+[node name="TextoVFX" type="RichTextLabel" parent="." unique_id=1785865563]
+offset_left = -100.0
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = 25.0
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

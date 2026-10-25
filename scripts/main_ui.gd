@@ -11,9 +11,10 @@ signal guardar_juego
 
 # Métricas
 @onready var label_turno: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelTurno
-@onready var label_contaminacion: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelContaminacion
-@onready var label_puntos: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelPuntos
-@onready var label_mazo: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelMazo
+@onready var barra_contaminacion: TextureProgressBar = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/BarraContaminacion
+@onready var titulo_contaminacion: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/TituloContaminacion
+@onready var valor_puntos: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorPuntos/ValorPuntos
+@onready var valor_mazo: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorMazo/ValorMazo
 @onready var label_comodines: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelComodines
 
 # Botones deAcción
@@ -31,7 +32,13 @@ signal guardar_juego
 @onready var boton_cerrar_historial: Button = $ModalHistorial/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BotonCerrarHistorial
 @onready var label_fin_juego: Label = $AreaTablero/MarginContainer/VBoxTablero/LabelFinJuego
 
+# Panel de Combos Retráctil
+@onready var panel_combos: Panel = $PanelCombos
+@onready var boton_toggle_combos: Button = $PanelCombos/BotonToggleCombos
+var panel_combos_abierto: bool = false
+
 const CARTA_VIEW_SCENE = preload("res://scenes/card_view.tscn")
+const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 
 var cartas_seleccionadas: Array[Carta] = []
 
@@ -46,6 +53,8 @@ func _ready() -> void:
 		boton_guardar.pressed.connect(_on_boton_guardar_pressed)
 	if boton_menu != null and not boton_menu.pressed.is_connected(_on_boton_menu_pressed):
 		boton_menu.pressed.connect(_on_boton_menu_pressed)
+	if boton_toggle_combos != null:
+		boton_toggle_combos.pressed.connect(_on_boton_toggle_combos_pressed)
 	if boton_historial != null:
 		boton_historial.pressed.connect(_on_abrir_historial)
 	if boton_cerrar_historial != null:
@@ -74,16 +83,29 @@ func renderizar_mano(mano: Array[Carta]) -> void:
 func actualizar_metricas(turno: int, contaminacion: int, limite_contam: int, puntos: int, cartas_mazo: int, comodines_usados: int) -> void:
 	if label_turno != null:
 		label_turno.text = "Turno: " + str(turno)
-	if label_contaminacion != null:
-		label_contaminacion.text = "Contaminación: " + str(contaminacion) + " / " + str(limite_contam)
+		
+	if barra_contaminacion != null:
+		barra_contaminacion.max_value = limite_contam
+		# Animación suave de la barra usando un Tween
+		var tween = create_tween()
+		tween.tween_property(barra_contaminacion, "value", contaminacion, 0.3).set_trans(Tween.TRANS_SINE)
+		
+		# Cambiar color de la barra si hay peligro (más de 16 de contaminación)
 		if contaminacion >= limite_contam - 4:
-			label_contaminacion.modulate = Color(1.0, 0.35, 0.35)
+			barra_contaminacion.tint_progress = Color(1.0, 0.35, 0.35) # Rojo
+			titulo_contaminacion.text = "CONTAMINACIÓN (¡PELIGRO!)"
+			titulo_contaminacion.modulate = Color(1.0, 0.35, 0.35)
 		else:
-			label_contaminacion.modulate = Color(1, 1, 1)
-	if label_puntos != null:
-		label_puntos.text = "Puntos Reducción: " + str(puntos)
-	if label_mazo != null:
-		label_mazo.text = "Mazo Restante: " + str(cartas_mazo) + " cartas"
+			barra_contaminacion.tint_progress = Color(0.4, 1.0, 0.4) # Verde
+			titulo_contaminacion.text = "CONTAMINACIÓN: " + str(contaminacion) + "/" + str(limite_contam)
+			titulo_contaminacion.modulate = Color(1, 1, 1)
+			
+	if valor_puntos != null:
+		valor_puntos.text = str(puntos) + " Pts"
+		
+	if valor_mazo != null:
+		valor_mazo.text = "x" + str(cartas_mazo)
+		
 	if label_comodines != null:
 		label_comodines.text = "Comodines Usados: " + str(comodines_usados)
 
@@ -148,6 +170,33 @@ func _on_boton_guardar_pressed() -> void:
 func _on_boton_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
+func _on_boton_toggle_combos_pressed() -> void:
+	panel_combos_abierto = not panel_combos_abierto
+
+	# Cambiar texto de boton
+	if panel_combos_abierto:
+		boton_toggle_combos.text = "<"
+	else:
+		boton_toggle_combos.text = ">"
+
+	# Animación (Tween)
+	var tween = create_tween()
+
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	if panel_combos_abierto:
+		# Mueve el panel hacia adentro de la pantalla
+		tween.tween_property(panel_combos, "position:x", 0.0, 0.4)
+	else:
+		# Oculta el panel dejándolo fuera de la pantalla
+		tween.tween_property(panel_combos, "position:x", -300.0, 0.4)
+
+func disparar_vfx(texto: String, posicion: Vector2, color_hex: String = "#FFD700") -> void:
+	var vfx = COMBO_VFX_SCENE.instantiate()
+	add_child(vfx)
+	
+	if vfx.has_method("configurar"):
+		vfx.configurar(texto, posicion, color_hex)
 func _on_abrir_historial() -> void:
 	if modal_historial != null:
 		modal_historial.visible = true
