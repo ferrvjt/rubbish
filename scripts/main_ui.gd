@@ -36,6 +36,13 @@ signal guardar_juego
 @onready var boton_toggle_combos: Button = $PanelCombos/BotonToggleCombos
 var panel_combos_abierto: bool = false
 
+#Modal Fin juego
+@onready var modal_fin_juego: ColorRect = $ModalFinJuego
+@onready var label_titulo_fin: Label = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelTituloFin
+@onready var label_mensaje_fin: Label = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelMensajeFin
+@onready var boton_reintentar: Button = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonesFin/BotonReintentar
+@onready var boton_menu_fin: Button = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonesFin/BotonMenuFin
+
 const CARTA_VIEW_SCENE = preload("res://scenes/card_view.tscn")
 const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 
@@ -58,8 +65,24 @@ func _ready() -> void:
 		boton_historial.pressed.connect(_on_abrir_historial)
 	if boton_cerrar_historial != null:
 		boton_cerrar_historial.pressed.connect(_on_cerrar_historial)
+	if boton_reintentar != null:
+		boton_reintentar.pressed.connect(_on_reintentar_pressed)
+	if boton_menu_fin != null:
+		boton_menu_fin.pressed.connect(_on_boton_menu_pressed)
 		
 	_actualizar_boton_jugar()
+
+func _on_reintentar_pressed() -> void:
+	get_tree().reload_current_scene()
+
+func generar_popup_alerta(texto_efecto: String, color_hex: String = "#FF3333") -> void:
+	var posicion_centro = get_viewport_rect().size / 2.0
+	var vfx = COMBO_VFX_SCENE.instantiate()
+	add_child(vfx)
+	vfx.global_position = posicion_centro
+	
+	if vfx.has_method("configurar"):
+		vfx.configurar(texto_efecto, posicion_centro, color_hex)
 
 func generar_popup_combo(texto_efecto: String, color_hex: String = "#FFD700") -> void:
 	# Obtener el centro de la pantalla/pantalla de juego
@@ -126,10 +149,13 @@ func actualizar_historial(logs: Array[String]) -> void:
 			scrollbar.value = scrollbar.max_value
 
 func mostrar_fin_juego(mensaje: String, es_victoria: bool) -> void:
-	if label_fin_juego != null:
-		label_fin_juego.visible = true
-		label_fin_juego.text = mensaje
-		label_fin_juego.modulate = Color(0.3, 1.0, 0.4) if es_victoria else Color(1.0, 0.25, 0.25)
+	if modal_fin_juego != null:
+		modal_fin_juego.visible = true
+		if label_titulo_fin != null:
+			label_titulo_fin.text = "¡VICTORIA!" if es_victoria else "¡DERROTA!"
+			label_titulo_fin.modulate = Color(0.3, 1.0, 0.4) if es_victoria else Color(1.0, 0.25, 0.25)
+		if label_mensaje_fin != null:
+			label_mensaje_fin.text = mensaje
 			
 	set_estado_botones(false, false, false)
 

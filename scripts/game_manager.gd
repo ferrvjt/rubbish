@@ -110,6 +110,7 @@ func robar_cartas(cantidad: int) -> void:
 			estado.registrar_log(msg_tox)
 			if vista_ui != null:
 				vista_ui.mostrar_feedback(msg_tox, Color(1.0, 0.4, 0.4))
+				vista_ui.generar_popup_alerta("¡+3 CONTAMINACIÓN!", "#FF3333")
 				
 		mano_actual.append(carta_robada)
 		
@@ -146,6 +147,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 			vista_ui.generar_popup_combo("¡Limpieza!", "#66ff66")
 		_avanzar_tutorial_si_aplica()
 		actualizar_pantalla()
+		verificar_fin_juego()
 		return
 
 	# 1. PAR ORGÁNICOS
@@ -160,6 +162,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 			vista_ui.generar_popup_combo("¡Par Organicos!!", "#66ff66")
 		_avanzar_tutorial_si_aplica()
 		actualizar_pantalla()
+		verificar_fin_juego()
 		return
 
 	# 2. TERCIA RECICLABLES
@@ -178,6 +181,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 			vista_ui.generar_popup_combo("¡Tercia Reciclables!!", "#66ffff")
 		_avanzar_tutorial_si_aplica()
 		actualizar_pantalla()
+		verificar_fin_juego()
 		return
 
 	# 3. PAR E-WASTE
@@ -221,6 +225,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 				vista_ui.mostrar_feedback(msg, Color(0.4, 1.0, 0.6))
 				vista_ui.generar_popup_combo("¡Compostera!", "#66ff66")
 			actualizar_pantalla()
+			verificar_fin_juego()
 			return
 
 		elif com.comodin_subtipo == "Q" and todos_del_tipo(residuos, Carta.Categoria.RECICLABLE):
@@ -236,6 +241,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 				vista_ui.mostrar_feedback(msg, Color(0.4, 1.0, 0.6))
 				vista_ui.generar_popup_combo("¡Recicladora!", "#66ffff")
 			actualizar_pantalla()
+			verificar_fin_juego()
 			return
 
 		elif com.comodin_subtipo == "K":
@@ -259,6 +265,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 					vista_ui.mostrar_feedback(msg, Color(0.4, 1.0, 0.6))
 					vista_ui.generar_popup_combo("¡Aislado!!", "#cc66ff")
 				actualizar_pantalla()
+				verificar_fin_juego()
 				return
 
 	# 5. E-WASTE INDIVIDUAL
@@ -296,13 +303,15 @@ func verificar_fin_juego() -> bool:
 			vista_ui.mostrar_feedback(msg, Color(1.0, 0.25, 0.25))
 			vista_ui.mostrar_fin_juego(msg, false)
 		return true
-	elif mazo.esta_vacio() and mazo.cantidad_descarte() == 0 and mano_actual.is_empty() and estado.modo_juego != "INFINITO":
+		
+	elif mazo.esta_vacio() and mano_actual.is_empty() and estado.modo_juego != "INFINITO":
 		var msg = "[VICTORIA] Vaciaste el mazo y procesaste todos los residuos. Puntos Finales: %d" % estado.get_puntos_reduccion()
 		estado.registrar_log(msg)
 		if vista_ui != null:
 			vista_ui.mostrar_feedback(msg, Color(0.3, 1.0, 0.4))
 			vista_ui.mostrar_fin_juego(msg, true)
 		return true
+		
 	return false
 
 # Resto de funciones asociadas (limpiar_mano, aplicar_sinergias_negativas, terminar_turno, actualizar_pantalla, guardar_progreso, etc.)
@@ -360,8 +369,12 @@ func verificar_mano_llena() -> void:
 		var msg = "[ALERTA] ¡DESBORDAMIENTO! +5 Contaminación."
 		estado.incrementar_contaminacion(5)
 		estado.registrar_log(msg)
+		if vista_ui != null:
+			vista_ui.mostrar_feedback(msg, Color(1.0, 0.3, 0.3))
+			vista_ui.generar_popup_alerta("¡+5 DESBORDAMIENTO!", "#FF2222")
 		for c in mano_actual: mazo.agregar_a_descarte(c)
 		mano_actual.clear()
+
 
 func descartar_cartas(cartas_a_descartar: Array[Carta]) -> void:
 	for c in cartas_a_descartar:
@@ -374,10 +387,26 @@ func todos_del_tipo(lista: Array[Carta], cat: Carta.Categoria) -> bool:
 	return true
 
 func limpiar_mano() -> void:
-	if mano_actual.is_empty(): return
-	for c in mano_actual: mazo.agregar_a_descarte(c)
+	if mano_actual.is_empty():
+		if vista_ui != null:
+			vista_ui.mostrar_feedback("[AVISO] Tu mano ya está vacía.", Color(1.0, 0.8, 0.4))
+		return
+		
+	# Declaración de la variable 'cant' ANTES de usarla en el mensaje
+	var cant: int = mano_actual.size()
+
+	for c in mano_actual:
+		mazo.agregar_a_descarte(c)
 	mano_actual.clear()
+	
 	estado.incrementar_contaminacion(5)
+	var msg = "[DESCARTE] Descartaste voluntariamente %d cartas. +5 Contaminación." % cant
+	estado.registrar_log(msg)
+	
+	if vista_ui != null:
+		vista_ui.mostrar_feedback(msg, Color(1.0, 0.4, 0.4))
+		vista_ui.generar_popup_alerta("¡+5 DESCARTE!", "#FF4444")
+		
 	actualizar_pantalla()
 	verificar_fin_juego()
 
@@ -393,24 +422,36 @@ func aplicar_sinergias_negativas() -> void:
 		elif c.es_ewaste(): ewaste.append(c)
 		elif c.es_toxico(): toxicos.append(c)
 
+# 1. Orgánico + Reciclable
 	if organicos.size() > 0 and reciclables.size() > 0:
 		estado.incrementar_contaminacion(1)
 		for c in reciclables: c.contaminar()
+		if vista_ui != null:
+			vista_ui.generar_popup_alerta("¡+1 CONTAMINACIÓN!", "#FF6633")
 
+	# 2. Orgánico + E-Waste
 	if organicos.size() > 0 and ewaste.size() > 0:
 		estado.incrementar_contaminacion(4)
+		if vista_ui != null:
+			vista_ui.generar_popup_alerta("¡+4 CONTAM. (E-WASTE)!", "#FF3333")
 
+	# 3. Retención de Orgánicos
 	if organicos.size() >= 2:
 		estado.incrementar_contaminacion(5)
 		estado.cartas_a_robar = 3
+		if vista_ui != null:
+			vista_ui.generar_popup_alerta("¡+5 DESCOMPOSICIÓN!", "#FF2222")
 	elif organicos.size() == 1:
 		estado.incrementar_contaminacion(2)
+		if vista_ui != null:
+			vista_ui.generar_popup_alerta("¡+2 CONTAMINACIÓN!", "#FF5533")
 
-	if ewaste.size() == 1 and organicos.size() == 0:
-		estado.actualizar_puntos(-3)
-
+	# 5. Retención de Tóxicos
 	if toxicos.size() > 0:
-		estado.incrementar_contaminacion(toxicos.size())
+		var pts_tox = toxicos.size()
+		estado.incrementar_contaminacion(pts_tox)
+		if vista_ui != null:
+			vista_ui.generar_popup_alerta("¡+%d TÓXICOS EN MANO!" % pts_tox, "#FF2222")
 
 func terminar_turno() -> void:
 	aplicar_sinergias_negativas()
