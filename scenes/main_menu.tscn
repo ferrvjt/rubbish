@@ -33,7 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelMenu" type="PanelContainer" parent="CenterContainer" unique_id=718897865]
-custom_minimum_size = Vector2(460, 420)
+custom_minimum_size = Vector2(460, 450)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelMenu" unique_id=1780703738]
@@ -66,6 +66,10 @@ text = "Nueva Partida"
 [node name="BotonCargar" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=2064956097]
 layout_mode = 2
 text = "Cargar Partida"
+
+[node name="BotonTutorialCompleto" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal"]
+layout_mode = 2
+text = "TUTORIAL COMPLETO"
 
 [node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=166343033]
 layout_mode = 2

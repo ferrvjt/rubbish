@@ -11,6 +11,19 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd3vc"]
 bg_color = Color(0.107773975, 0.25040835, 0.32072106, 0.7882353)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_guia"]
+bg_color = Color(0.08, 0.13, 0.18, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.7, 0.9, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 6
+
 [node name="MainUI" type="Control" unique_id=496830009]
 layout_mode = 3
 anchors_preset = 15
@@ -351,3 +364,110 @@ text = "REINTENTAR"
 custom_minimum_size = Vector2(140, 40)
 layout_mode = 2
 text = "MENÚ PRINCIPAL"
+
+[node name="ModalTutorialGuia" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 344.0
+offset_top = 20.0
+offset_right = 1128.0
+offset_bottom = 270.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_guia")
+
+[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialGuia"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialGuia/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelTituloTutorial" type="Label" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "PASO 1: MÉTRICAS DE JUEGO"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextoExplicacionTutorial" type="RichTextLabel" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Explicación del tutorial..."
+
+[node name="HSeparator2" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContenedorBotonGuia" type="HBoxContainer" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BotonSiguienteTutorial" type="Button" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia"]
+custom_minimum_size = Vector2(220, 38)
+layout_mode = 2
+text = "SIGUIENTE (1/4)"
+
+[node name="ModalTutorialFinalizado" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="ModalTutorialFinalizado"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ModalTutorialFinalizado/CenterContainer"]
+custom_minimum_size = Vector2(440, 220)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="LabelTituloFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "¡TUTORIAL COMPLETADO!"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LabelMensajeFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "¡Tutorial terminado, se regresa al menú!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContenedorBotonFinalizado" type="HBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BotonEntendidoTutorial" type="Button" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonFinalizado"]
+custom_minimum_size = Vector2(160, 42)
+layout_mode = 2
+text = "ENTENDIDO"

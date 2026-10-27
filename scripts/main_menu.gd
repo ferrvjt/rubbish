@@ -8,6 +8,7 @@ extends Control
 # Botones Menú Principal
 @onready var boton_nueva: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonNueva
 @onready var boton_cargar: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonCargar
+@onready var boton_tutorial_completo: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonTutorialCompleto
 @onready var label_info: Label = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/LabelInfoGuardado
 @onready var boton_salir: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonSalir
 
@@ -37,6 +38,8 @@ func _ready() -> void:
 		boton_nueva.pressed.connect(_mostrar_menu_modos)
 	if boton_cargar != null:
 		boton_cargar.pressed.connect(_on_cargar_partida_pressed)
+	if boton_tutorial_completo != null:
+		boton_tutorial_completo.pressed.connect(_on_tutorial_completo_pressed)
 	if boton_salir != null:
 		boton_salir.pressed.connect(_on_salir_pressed)
 	
@@ -116,6 +119,13 @@ func _on_cargar_partida_pressed() -> void:
 		datos["es_nueva_partida"] = false
 		PersistenciaManager.partida_cargada_pendiente = datos
 		get_tree().change_scene_to_file("res://scenes/main_ui.tscn")
+
+func _on_tutorial_completo_pressed() -> void:
+	PersistenciaManager.partida_cargada_pendiente = {
+		"es_nueva_partida": true,
+		"modo_juego": "TUTORIAL_COMPLETO"
+	}
+	get_tree().change_scene_to_file("res://scenes/main_ui.tscn")
 
 func _on_salir_pressed() -> void:
 	get_tree().quit()

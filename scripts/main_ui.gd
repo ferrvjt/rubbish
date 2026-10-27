@@ -9,6 +9,7 @@ signal guardar_juego
 @onready var contenedor_mano: HBoxContainer = $ContenedorMano
 
 # Métricas
+@onready var panel_metricas_container: PanelContainer = $PanelMetricasContainer
 @onready var label_turno: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelTurno
 @onready var barra_contaminacion: TextureProgressBar = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/BarraContaminacion
 @onready var titulo_contaminacion: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/ContenedorContaminacion/TituloContaminacion
@@ -17,6 +18,7 @@ signal guardar_juego
 @onready var label_comodines: Label = $PanelMetricasContainer/MarginContainer/PanelMetricas/LabelComodines
 
 # Botones de Acción
+@onready var botones_accion: HBoxContainer = $BotonesAccion
 @onready var boton_jugar: Button = $BotonesAccion/BotonJugar
 @onready var boton_limpiar: Button = $BotonesAccion/BotonLimpiar
 @onready var boton_pasar: Button = $BotonesAccion/BotonPasar
@@ -36,17 +38,35 @@ signal guardar_juego
 @onready var boton_toggle_combos: Button = $PanelCombos/BotonToggleCombos
 var panel_combos_abierto: bool = false
 
-#Modal Fin juego
+# Modal Fin juego
 @onready var modal_fin_juego: ColorRect = $ModalFinJuego
 @onready var label_titulo_fin: Label = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelTituloFin
 @onready var label_mensaje_fin: Label = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelMensajeFin
 @onready var boton_reintentar: Button = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonesFin/BotonReintentar
 @onready var boton_menu_fin: Button = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonesFin/BotonMenuFin
 
+# Modal Tutorial Completo Guía
+@onready var modal_tutorial_guia: PanelContainer = $ModalTutorialGuia
+@onready var label_titulo_tutorial: Label = $ModalTutorialGuia/MarginContainer/VBoxContainer/LabelTituloTutorial
+@onready var texto_tutorial: RichTextLabel = $ModalTutorialGuia/MarginContainer/VBoxContainer/TextoExplicacionTutorial
+@onready var boton_siguiente_tutorial: Button = $ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia/BotonSiguienteTutorial
+
+# Modal Tutorial Finalizado
+@onready var modal_tutorial_finalizado: ColorRect = $ModalTutorialFinalizado
+@onready var label_titulo_finalizado: Label = $ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelTituloFinalizado
+@onready var label_mensaje_finalizado: Label = $ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelMensajeFinalizado
+@onready var boton_entendido_tutorial: Button = $ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonFinalizado/BotonEntendidoTutorial
+
 const CARTA_VIEW_SCENE = preload("res://scenes/card_view.tscn")
 const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 
 var cartas_seleccionadas: Array[Carta] = []
+
+# Control de Tutorial Completo Interactivo
+const TOTAL_PASOS_TUTORIAL: int = 4
+var paso_tutorial_completo: int = 1
+var tween_resaltado: Tween = null
+var nodo_resaltado_actual: CanvasItem = null
 
 func _ready() -> void:
 	if boton_jugar != null and not boton_jugar.pressed.is_connected(_on_boton_jugar_pressed):
@@ -70,7 +90,135 @@ func _ready() -> void:
 	if boton_menu_fin != null:
 		boton_menu_fin.pressed.connect(_on_boton_menu_pressed)
 		
+	# Conectar botones del Tutorial Completo
+	if boton_siguiente_tutorial != null and not boton_siguiente_tutorial.pressed.is_connected(_on_boton_siguiente_tutorial_pressed):
+		boton_siguiente_tutorial.pressed.connect(_on_boton_siguiente_tutorial_pressed)
+	if boton_entendido_tutorial != null and not boton_entendido_tutorial.pressed.is_connected(_on_boton_entendido_tutorial_pressed):
+		boton_entendido_tutorial.pressed.connect(_on_boton_entendido_tutorial_pressed)
+		
 	_actualizar_boton_jugar()
+
+# --- Flujo del Tutorial Completo Interactivo ---
+
+func iniciar_tutorial_completo() -> void:
+	paso_tutorial_completo = 1
+	avanzar_paso_tutorial_completo(1)
+
+func avanzar_paso_tutorial_completo(paso: int) -> void:
+	paso_tutorial_completo = paso
+	
+	if paso > TOTAL_PASOS_TUTORIAL:
+		finalizar_tutorial_completo()
+		return
+		
+	if modal_tutorial_guia != null:
+		modal_tutorial_guia.visible = true
+		
+	if boton_siguiente_tutorial != null:
+		boton_siguiente_tutorial.text = "SIGUIENTE (" + str(paso) + "/" + str(TOTAL_PASOS_TUTORIAL) + ")"
+		
+	_limpiar_resaltado()
+	
+	match paso:
+		1:
+			# Paso 1 (Métricas de Juego)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 1: MÉTRICAS DE JUEGO"
+			if texto_tutorial != null:
+				texto_tutorial.text = "[b]Panel de Métricas:[/b]\n" \
+					+ "• [b]Turno:[/b] Número de turno actual.\n" \
+					+ "• [b]Contaminación:[/b] Barra que sube con el residuo sin tratar; si llega al límite se pierde.\n" \
+					+ "• [b]Puntos de Reducción:[/b] Puntaje acumulado por procesar combos.\n" \
+					+ "• [b]Mazo y Comodines Usados:[/b] Cantidad de cartas restantes y comodines activos."
+			if panel_metricas_container != null:
+				_resaltar_nodo(panel_metricas_container)
+		2:
+			# Paso 2 (Panel de Combos)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 2: PANEL DE COMBOS"
+			if texto_tutorial != null:
+				texto_tutorial.text = "[b]Panel Retráctil de Combos:[/b]\n" \
+					+ "• Se ha desplegado automáticamente el panel lateral de combinaciones.\n" \
+					+ "• Puedes consultarlo en cualquier momento durante la partida para revisar qué combinaciones son válidas y su puntuación.\n" \
+					+ "• Haz clic en la pestaña [b]>[/b] o [b]<[/b] para abrirlo o cerrarlo cuando desees."
+			desplegar_panel_combos(true)
+			if panel_combos != null:
+				_resaltar_nodo(panel_combos)
+		3:
+			# Paso 3 (Uso de Comodines y Cartas Especiales)
+			desplegar_panel_combos(false)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 3: USO DE COMODINES Y CARTAS ESPECIALES"
+			if texto_tutorial != null:
+				texto_tutorial.text = "[b]Cartas Especiales y Comodines Clave:[/b]\n" \
+					+ "• [b]Comodín J (Compostera):[/b] Potencia orgánicos.\n" \
+					+ "• [b]Comodín Q (Recicladora):[/b] Potencia reciclables.\n" \
+					+ "• [b]Comodín K (Aislamiento):[/b] Neutraliza E-Waste y tóxicos.\n" \
+					+ "• [b]As (Limpieza):[/b] Reduce contaminación acumulada (-5)."
+			if contenedor_mano != null:
+				_resaltar_nodo(contenedor_mano)
+		4:
+			# Paso 4 (Acciones del Jugador)
+			desplegar_panel_combos(false)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 4: ACCIONES DEL JUGADOR"
+			if texto_tutorial != null:
+				texto_tutorial.text = "[b]Botones de Acción Disponibles:[/b]\n" \
+					+ "• [b]JUGAR:[/b] Procesa las cartas seleccionadas si forman una combinación válida.\n" \
+					+ "• [b]LIMPIAR:[/b] Descarta toda tu mano voluntariamente (+5 contaminación de penalización).\n" \
+					+ "• [b]PASAR TURNO:[/b] Aplica efectos del turno y roba nuevas cartas del mazo.\n" \
+					+ "• [b]VER HISTORIAL:[/b] Consulta el registro detallado de eventos y jugadas."
+			if botones_accion != null:
+				_resaltar_nodo(botones_accion)
+		_:
+			finalizar_tutorial_completo()
+
+func finalizar_tutorial_completo() -> void:
+	_limpiar_resaltado()
+	desplegar_panel_combos(false)
+	
+	if modal_tutorial_guia != null:
+		modal_tutorial_guia.visible = false
+		
+	if modal_tutorial_finalizado != null:
+		modal_tutorial_finalizado.visible = true
+		if label_mensaje_finalizado != null:
+			label_mensaje_finalizado.text = "¡Tutorial terminado, se regresa al menú!"
+
+func _on_boton_siguiente_tutorial_pressed() -> void:
+	avanzar_paso_tutorial_completo(paso_tutorial_completo + 1)
+
+func _on_boton_entendido_tutorial_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func desplegar_panel_combos(abrir: bool) -> void:
+	if panel_combos == null:
+		return
+	panel_combos_abierto = abrir
+	if boton_toggle_combos != null:
+		boton_toggle_combos.text = "<" if panel_combos_abierto else ">"
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(panel_combos, "position:x", 0.0 if panel_combos_abierto else -300.0, 0.4)
+
+func _resaltar_nodo(nodo: CanvasItem) -> void:
+	_limpiar_resaltado()
+	if nodo == null:
+		return
+	nodo_resaltado_actual = nodo
+	tween_resaltado = create_tween().set_loops()
+	tween_resaltado.tween_property(nodo, "modulate", Color(0.6, 1.0, 0.8, 1.0), 0.5)
+	tween_resaltado.tween_property(nodo, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.5)
+
+func _limpiar_resaltado() -> void:
+	if tween_resaltado != null and tween_resaltado.is_valid():
+		tween_resaltado.kill()
+		tween_resaltado = null
+	if nodo_resaltado_actual != null:
+		nodo_resaltado_actual.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		nodo_resaltado_actual = null
+
+# --- Fin Flujo Tutorial Completo ---
 
 func _on_reintentar_pressed() -> void:
 	get_tree().reload_current_scene()
@@ -195,11 +343,7 @@ func _on_boton_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_boton_toggle_combos_pressed() -> void:
-	panel_combos_abierto = not panel_combos_abierto
-	boton_toggle_combos.text = "<" if panel_combos_abierto else ">"
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(panel_combos, "position:x", 0.0 if panel_combos_abierto else -300.0, 0.4)
+	desplegar_panel_combos(not panel_combos_abierto)
 
 func _on_abrir_historial() -> void:
 	if modal_historial != null: modal_historial.visible = true

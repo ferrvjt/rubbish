@@ -32,12 +32,37 @@ func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR") -> void:
 
 	if estado.en_tutorial:
 		ejecutar_paso_tutorial()
+	elif estado.es_tutorial_completo:
+		iniciar_tutorial_completo_partida()
 	else:
 		robar_cartas(estado.cartas_a_robar)
 		actualizar_pantalla()
 		if vista_ui != null:
 			vista_ui.set_estado_botones(true, true, true)
 			vista_ui.mostrar_feedback("[INFO] Partida iniciada en Modo: " + estado.modo_juego, Color(0.4, 1.0, 0.7))
+
+func iniciar_tutorial_completo_partida() -> void:
+	mano_actual.clear()
+	
+	# Extraer variedad controlada de cartas: Orgánico, Reciclable, E-Waste, Comodín y As
+	var carta_org = extraer_carta_especifica(Carta.Categoria.ORGANICO)
+	var carta_rec = extraer_carta_especifica(Carta.Categoria.RECICLABLE)
+	var carta_ewaste = extraer_carta_especifica(Carta.Categoria.EWASTE)
+	var carta_comodin = extraer_carta_especifica(Carta.Categoria.COMODIN)
+	var carta_as = extraer_carta_especifica(Carta.Categoria.AS)
+	
+	if carta_org != null: mano_actual.append(carta_org)
+	if carta_rec != null: mano_actual.append(carta_rec)
+	if carta_ewaste != null: mano_actual.append(carta_ewaste)
+	if carta_comodin != null: mano_actual.append(carta_comodin)
+	if carta_as != null: mano_actual.append(carta_as)
+	
+	actualizar_pantalla()
+	
+	if vista_ui != null:
+		vista_ui.set_estado_botones(true, true, true)
+		vista_ui.mostrar_feedback("[TUTORIAL] Guía interactiva paso a paso en curso.", Color(0.4, 0.9, 1.0))
+		vista_ui.iniciar_tutorial_completo()
 
 func ejecutar_paso_tutorial() -> void:
 	mano_actual.clear()
@@ -478,6 +503,10 @@ func actualizar_pantalla() -> void:
 		vista_ui.actualizar_historial(estado.logs)
 
 func guardar_progreso() -> void:
+	if estado != null and estado.es_tutorial_completo:
+		if vista_ui != null:
+			vista_ui.mostrar_feedback("[AVISO] El guardado no está permitido durante el tutorial.", Color(1.0, 0.8, 0.4))
+		return
 	var exito = PersistenciaManager.guardar_partida(estado, mano_actual, estado.comodines_usados, estado.logs)
 	if vista_ui != null:
 		if exito: vista_ui.mostrar_feedback("[GUARDADO] Partida guardada con éxito.", Color(0.5, 1.0, 0.5))

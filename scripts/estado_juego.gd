@@ -10,11 +10,12 @@ var turno: int = 1
 var comodines_usados: Array[Carta] = []
 var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA"
 var logs: Array[String] = []
-var modo_juego: String = "ESTANDAR" # "ESTANDAR", "INFINITO", "RETO_TOXICO", "TUTORIAL"
+var modo_juego: String = "ESTANDAR" # "ESTANDAR", "INFINITO", "RETO_TOXICO", "TUTORIAL", "TUTORIAL_COMPLETO"
 
 # Control de Tutorial Guiado
 var en_tutorial: bool = false
 var paso_tutorial: int = 0
+var es_tutorial_completo: bool = false
 
 func _init(p_limite: int = 21) -> void:
 	limite_contaminacion = p_limite
@@ -25,6 +26,9 @@ func _init(p_limite: int = 21) -> void:
 	turno = 1
 	comodines_usados = []
 	estado_partida = "JUGANDO"
+	en_tutorial = false
+	paso_tutorial = 0
+	es_tutorial_completo = false
 	logs = ["[INICIO] Partida iniciada. Limpia el entorno sin alcanzar el límite de contaminación."]
 
 func configurar_modo(p_modo: String) -> void:
@@ -40,6 +44,10 @@ func configurar_modo(p_modo: String) -> void:
 			limite_contaminacion = 21
 			en_tutorial = true
 			paso_tutorial = 0
+		"TUTORIAL_COMPLETO":
+			limite_contaminacion = 21
+			es_tutorial_completo = true
+			registrar_log("[MODO] Tutorial Completo Interactivo iniciado.")
 		_:
 			modo_juego = "ESTANDAR"
 			limite_contaminacion = 21
