@@ -4,7 +4,7 @@ extends Node2D
 @onready var texto_vfx: RichTextLabel = $TextoVFX
 
 func configurar(texto: String, pos_inicial: Vector2, color_hex: String = "#FFD700") -> void:
-	position = pos_inicial
+	global_position = pos_inicial
 
 	# Usar BBCode para un efecto de temblor
 	var bbcode_texto = "[center][shake rate=30.0 level=15 connected=1][color=" + color_hex + "]" + texto + "[/color][/shake][/center]"
