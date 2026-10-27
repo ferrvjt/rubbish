@@ -234,6 +234,20 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 		else:
 			residuos.append(c)
 
+	# 4.0 Descartar comodines solos (cuando se seleccionan uno o varios comodines sin residuos)
+	if comodines.size() >= 1 and residuos.is_empty():
+		for com in comodines:
+			estado.comodines_usados.append(com)
+			mano_actual.erase(com)
+		var msg = "[COMODIN] Descartaste %d comodín(es)." % comodines.size()
+		estado.registrar_log(msg)
+		if vista_ui != null:
+			vista_ui.mostrar_feedback(msg, Color(0.4, 0.8, 1.0))
+			vista_ui.generar_popup_combo("¡Comodín descartado!", "#66ccff")
+		actualizar_pantalla()
+		verificar_fin_juego()
+		return
+
 	if comodines.size() == 1 and residuos.size() >= 1:
 		var com = comodines[0]
 		
@@ -329,13 +343,32 @@ func verificar_fin_juego() -> bool:
 			vista_ui.mostrar_fin_juego(msg, false)
 		return true
 		
-	elif mazo.esta_vacio() and mano_actual.is_empty() and estado.modo_juego != "INFINITO":
-		var msg = "[VICTORIA] Vaciaste el mazo y procesaste todos los residuos. Puntos Finales: %d" % estado.get_puntos_reduccion()
-		estado.registrar_log(msg)
-		if vista_ui != null:
-			vista_ui.mostrar_feedback(msg, Color(0.3, 1.0, 0.4))
-			vista_ui.mostrar_fin_juego(msg, true)
-		return true
+	elif mazo.esta_vacio() and estado.modo_juego != "INFINITO":
+		# Comprobar si quedan residuos sin procesar en la mano
+		var residuos_en_mano: int = 0
+		for c in mano_actual:
+			if not c.es_comodin() and not c.es_as():
+				residuos_en_mano += 1
+		
+		# Si ya no quedan residuos en mano (solo comodines/ases o mano vacía), se retiran los comodines y se gana
+		if residuos_en_mano == 0:
+			var comodines_a_retirar: Array[Carta] = []
+			for c in mano_actual:
+				if c.es_comodin():
+					comodines_a_retirar.append(c)
+			for com in comodines_a_retirar:
+				estado.comodines_usados.append(com)
+				mano_actual.erase(com)
+			
+			mano_actual.clear()
+			actualizar_pantalla()
+			
+			var msg = "[VICTORIA] Vaciaste el mazo y procesaste todos los residuos. Puntos Finales: %d" % estado.get_puntos_reduccion()
+			estado.registrar_log(msg)
+			if vista_ui != null:
+				vista_ui.mostrar_feedback(msg, Color(0.3, 1.0, 0.4))
+				vista_ui.mostrar_fin_juego(msg, true)
+			return true
 		
 	return false
 
@@ -397,7 +430,11 @@ func verificar_mano_llena() -> void:
 		if vista_ui != null:
 			vista_ui.mostrar_feedback(msg, Color(1.0, 0.3, 0.3))
 			vista_ui.generar_popup_alerta("¡+5 DESBORDAMIENTO!", "#FF2222")
-		for c in mano_actual: mazo.agregar_a_descarte(c)
+		for c in mano_actual:
+			if c.es_comodin():
+				estado.comodines_usados.append(c)
+			else:
+				mazo.agregar_a_descarte(c)
 		mano_actual.clear()
 
 
@@ -421,7 +458,10 @@ func limpiar_mano() -> void:
 	var cant: int = mano_actual.size()
 
 	for c in mano_actual:
-		mazo.agregar_a_descarte(c)
+		if c.es_comodin():
+			estado.comodines_usados.append(c)
+		else:
+			mazo.agregar_a_descarte(c)
 	mano_actual.clear()
 	
 	estado.incrementar_contaminacion(5)
@@ -491,7 +531,7 @@ func terminar_turno() -> void:
 
 func actualizar_pantalla() -> void:
 	if vista_ui != null:
-		vista_ui.renderizar_mano(mano_actual)
+		vista_ui.renderizar_mano(mano_actual, estado.limite_mano)
 		vista_ui.actualizar_metricas(
 			estado.turno,
 			estado.get_contaminacion_actual(),

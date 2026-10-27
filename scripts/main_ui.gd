@@ -7,6 +7,7 @@ signal pasar_turno
 signal guardar_juego
 
 @onready var contenedor_mano: HBoxContainer = $ContenedorMano
+@onready var label_limite_mano: Label = $LabelLimiteMano
 
 # Métricas
 @onready var panel_metricas_container: PanelContainer = $PanelMetricasContainer
@@ -95,6 +96,9 @@ func _ready() -> void:
 		boton_siguiente_tutorial.pressed.connect(_on_boton_siguiente_tutorial_pressed)
 	if boton_entendido_tutorial != null and not boton_entendido_tutorial.pressed.is_connected(_on_boton_entendido_tutorial_pressed):
 		boton_entendido_tutorial.pressed.connect(_on_boton_entendido_tutorial_pressed)
+		
+	if label_limite_mano != null:
+		label_limite_mano.text = "0/10"
 		
 	_actualizar_boton_jugar()
 
@@ -223,29 +227,45 @@ func _limpiar_resaltado() -> void:
 func _on_reintentar_pressed() -> void:
 	get_tree().reload_current_scene()
 
+var ultimo_offset_popup: Vector2 = Vector2.ZERO
+
+func _obtener_posicion_popup_variada() -> Vector2:
+	var viewport_size = get_viewport_rect().size
+	var centro = viewport_size / 2.0
+	var offset = Vector2(
+		randf_range(-180.0, 180.0),
+		randf_range(-80.0, 70.0)
+	)
+	if offset.distance_to(ultimo_offset_popup) < 60.0:
+		offset.x += 75.0 if offset.x <= 0 else -75.0
+		offset.y += 40.0 if offset.y <= 0 else -40.0
+	ultimo_offset_popup = offset
+	return centro + offset
+
 func generar_popup_alerta(texto_efecto: String, color_hex: String = "#FF3333") -> void:
-	var posicion_centro = get_viewport_rect().size / 2.0
+	var pos_popup = _obtener_posicion_popup_variada()
 	var vfx = COMBO_VFX_SCENE.instantiate()
 	add_child(vfx)
-	vfx.global_position = posicion_centro
+	vfx.global_position = pos_popup
 	
 	if vfx.has_method("configurar"):
-		vfx.configurar(texto_efecto, posicion_centro, color_hex)
+		vfx.configurar(texto_efecto, pos_popup, color_hex)
 
 func generar_popup_combo(texto_efecto: String, color_hex: String = "#FFD700") -> void:
-	# Obtener el centro de la pantalla/pantalla de juego
-	var posicion_centro = get_viewport_rect().size / 2.0
-
+	var pos_popup = _obtener_posicion_popup_variada()
 	var vfx = COMBO_VFX_SCENE.instantiate()
 	add_child(vfx)
-	vfx.global_position = posicion_centro
+	vfx.global_position = pos_popup
 	
 	if vfx.has_method("configurar"):
-		vfx.configurar(texto_efecto, posicion_centro, color_hex)
+		vfx.configurar(texto_efecto, pos_popup, color_hex)
 
-func renderizar_mano(mano: Array[Carta]) -> void:
+func renderizar_mano(mano: Array[Carta], limite_mano: int = 10) -> void:
 	cartas_seleccionadas.clear()
 	_actualizar_boton_jugar()
+	
+	if label_limite_mano != null:
+		label_limite_mano.text = str(mano.size()) + "/" + str(limite_mano)
 	
 	for child in contenedor_mano.get_children():
 		child.queue_free()

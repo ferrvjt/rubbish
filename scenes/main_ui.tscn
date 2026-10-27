@@ -159,7 +159,8 @@ text = "Jugar (0)"
 [node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
-text = "LIMPIAR (+5)"
+text = "Deshacer mano
+(+5 cont.)"
 
 [node name="BotonPasar" type="Button" parent="BotonesAccion" unique_id=1241315057]
 custom_minimum_size = Vector2(130, 42)
@@ -189,6 +190,19 @@ offset_right = 1126.0
 offset_bottom = 620.0
 theme_override_constants/separation = 10
 alignment = 1
+
+[node name="LabelLimiteMano" type="Label" parent="." unique_id=1414198540]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 622.0
+offset_right = 1126.0
+offset_bottom = 645.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7058824)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "0/10"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameManager" type="Node" parent="." unique_id=95482145 node_paths=PackedStringArray("vista_ui")]
 script = ExtResource("3_e6fyy")
@@ -224,29 +238,49 @@ layout_mode = 2
 layout_mode = 2
 text = "Combos Válidos:"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=312447249]
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1039646809]
 layout_mode = 2
 text = "🍎 Par Orgánico: Suma x 2."
 
+[node name="HSeparator2" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=32570916]
+layout_mode = 2
+
 [node name="Label3" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=265564750]
 layout_mode = 2
-text = "♻️ Tercia Reciclable: Suma x 3
- + Recupera Comodín."
+text = "♻️ Tercia Reciclable: 
+     - Suma x 3+ Recupera Comodín."
+
+[node name="HSeparator3" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=560251503]
+layout_mode = 2
 
 [node name="Label4" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1290124028]
 layout_mode = 2
-text = "🔋 Par E-Waste: Suma x 3 
-(+1 Contaminación)."
+text = "🔋 Par E-Waste: 
+     - Suma x 3 (+1 Cont)."
+
+[node name="HSeparator4" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1565013554]
+layout_mode = 2
+
+[node name="Label6" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=606489457]
+layout_mode = 2
+text = "🔋 E-waste único:
+     - pts x 3."
+
+[node name="HSeparator5" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=615813527]
+layout_mode = 2
 
 [node name="Label5" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2044824948]
 layout_mode = 2
 text = "☢️ AntiToxic + E-Waste: 
-Anula tóxicos"
+     - Anula tóxicos"
 
-[node name="Label6" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=606489457]
+[node name="HSeparator6" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2020580614]
 layout_mode = 2
-text = "☢️ E-waste x 3."
 
 [node name="Label7" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1322531255]
 layout_mode = 2
@@ -365,7 +399,7 @@ custom_minimum_size = Vector2(140, 40)
 layout_mode = 2
 text = "MENÚ PRINCIPAL"
 
-[node name="ModalTutorialGuia" type="PanelContainer" parent="."]
+[node name="ModalTutorialGuia" type="PanelContainer" parent="." unique_id=354898598]
 visible = false
 layout_mode = 0
 offset_left = 344.0
@@ -374,45 +408,45 @@ offset_right = 1128.0
 offset_bottom = 270.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_guia")
 
-[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialGuia"]
+[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialGuia" unique_id=1055500584]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 14
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialGuia/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialGuia/MarginContainer" unique_id=1055430134]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LabelTituloTutorial" type="Label" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+[node name="LabelTituloTutorial" type="Label" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=959518424]
 layout_mode = 2
 text = "PASO 1: MÉTRICAS DE JUEGO"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=302547489]
 layout_mode = 2
 
-[node name="TextoExplicacionTutorial" type="RichTextLabel" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+[node name="TextoExplicacionTutorial" type="RichTextLabel" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=410272404]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Explicación del tutorial..."
 
-[node name="HSeparator2" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=1921666627]
 layout_mode = 2
 
-[node name="ContenedorBotonGuia" type="HBoxContainer" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+[node name="ContenedorBotonGuia" type="HBoxContainer" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=10667856]
 layout_mode = 2
 alignment = 1
 
-[node name="BotonSiguienteTutorial" type="Button" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia"]
+[node name="BotonSiguienteTutorial" type="Button" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia" unique_id=103011217]
 custom_minimum_size = Vector2(220, 38)
 layout_mode = 2
 text = "SIGUIENTE (1/4)"
 
-[node name="ModalTutorialFinalizado" type="ColorRect" parent="."]
+[node name="ModalTutorialFinalizado" type="ColorRect" parent="." unique_id=1665152546]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -422,7 +456,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="CenterContainer" type="CenterContainer" parent="ModalTutorialFinalizado"]
+[node name="CenterContainer" type="CenterContainer" parent="ModalTutorialFinalizado" unique_id=842718339]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -430,44 +464,44 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="ModalTutorialFinalizado/CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ModalTutorialFinalizado/CenterContainer" unique_id=1430611900]
 custom_minimum_size = Vector2(440, 220)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer" unique_id=271562716]
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer" unique_id=484805790]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="LabelTituloFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LabelTituloFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=813832298]
 layout_mode = 2
 text = "¡TUTORIAL COMPLETADO!"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1326106788]
 layout_mode = 2
 
-[node name="LabelMensajeFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LabelMensajeFinalizado" type="Label" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1168921350]
 layout_mode = 2
 text = "¡Tutorial terminado, se regresa al menú!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1434427814]
 layout_mode = 2
 
-[node name="ContenedorBotonFinalizado" type="HBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ContenedorBotonFinalizado" type="HBoxContainer" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1344275818]
 layout_mode = 2
 alignment = 1
 
-[node name="BotonEntendidoTutorial" type="Button" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonFinalizado"]
+[node name="BotonEntendidoTutorial" type="Button" parent="ModalTutorialFinalizado/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotonFinalizado" unique_id=2030058012]
 custom_minimum_size = Vector2(160, 42)
 layout_mode = 2
 text = "ENTENDIDO"
