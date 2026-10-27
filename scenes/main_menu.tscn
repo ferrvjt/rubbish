@@ -108,3 +108,61 @@ layout_mode = 2
 layout_mode = 2
 text = "VOLVER
 "
+
+[node name="ModalDescripcion" type="ColorRect" parent="." unique_id=4474968]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="CenterContainer" type="CenterContainer" parent="ModalDescripcion" unique_id=1484382772]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ModalDescripcion/CenterContainer" unique_id=2032986790]
+custom_minimum_size = Vector2(420, 280)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ModalDescripcion/CenterContainer/PanelContainer" unique_id=493984806]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer" unique_id=2074587154]
+layout_mode = 2
+
+[node name="LabelTituloModo" type="Label" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1753341727]
+layout_mode = 2
+text = "MODO SELECCIONADO"
+
+[node name="HSeparator" type="HSeparator" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1574596952]
+layout_mode = 2
+
+[node name="LabelDescModo" type="RichTextLabel" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1911139283]
+custom_minimum_size = Vector2(380, 120)
+layout_mode = 2
+autowrap_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=235064327]
+layout_mode = 2
+
+[node name="ContenedorBotones" type="HBoxContainer" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=343255741]
+layout_mode = 2
+
+[node name="BotonCancelarModo" type="Button" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotones" unique_id=1032986128]
+layout_mode = 2
+text = "VOLVER"
+
+[node name="BotonEmpezarModo" type="Button" parent="ModalDescripcion/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContenedorBotones" unique_id=381888874]
+layout_mode = 2
+text = "¡EMPEZAR PARTIDA!"

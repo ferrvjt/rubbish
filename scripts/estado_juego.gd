@@ -8,9 +8,13 @@ var limite_mano: int = 10
 var cartas_a_robar: int = 4
 var turno: int = 1
 var comodines_usados: Array[Carta] = []
-var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA
+var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA"
 var logs: Array[String] = []
-var modo_juego: String = "ESTANDAR" # Opciones: "ESTANDAR", "INFINITO", "RETO_TOXICO"
+var modo_juego: String = "ESTANDAR" # "ESTANDAR", "INFINITO", "RETO_TOXICO", "TUTORIAL"
+
+# Control de Tutorial Guiado
+var en_tutorial: bool = false
+var paso_tutorial: int = 0
 
 func _init(p_limite: int = 21) -> void:
 	limite_contaminacion = p_limite
@@ -22,6 +26,23 @@ func _init(p_limite: int = 21) -> void:
 	comodines_usados = []
 	estado_partida = "JUGANDO"
 	logs = ["[INICIO] Partida iniciada. Limpia el entorno sin alcanzar el límite de contaminación."]
+
+func configurar_modo(p_modo: String) -> void:
+	modo_juego = p_modo
+	match modo_juego:
+		"RETO_TOXICO":
+			limite_contaminacion = 15
+			registrar_log("[MODO] Reto Tóxico: Límite de contaminación reducido a 15.")
+		"INFINITO":
+			limite_contaminacion = 21
+			registrar_log("[MODO] Modo Infinito: El descarte se reciclará de forma ilimitada.")
+		"TUTORIAL":
+			limite_contaminacion = 21
+			en_tutorial = true
+			paso_tutorial = 0
+		_:
+			modo_juego = "ESTANDAR"
+			limite_contaminacion = 21
 
 func actualizar_puntos(puntos: int) -> void:
 	puntos_reduccion = max(0, puntos_reduccion + puntos)
