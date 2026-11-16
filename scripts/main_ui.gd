@@ -39,6 +39,11 @@ signal guardar_juego
 @onready var boton_toggle_combos: Button = $PanelCombos/BotonToggleCombos
 var panel_combos_abierto: bool = false
 
+# Panel de Efectos Negativos Retráctil
+@onready var panel_negativos: Panel = $PanelNegativos
+@onready var boton_toggle_negativos: Button = $PanelNegativos/BotonToggleNegativos
+var panel_negativos_abierto: bool = false
+
 # Modal Fin juego
 @onready var modal_fin_juego: ColorRect = $ModalFinJuego
 @onready var label_titulo_fin: Label = $ModalFinJuego/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LabelTituloFin
@@ -82,6 +87,8 @@ func _ready() -> void:
 		boton_menu.pressed.connect(_on_boton_menu_pressed)
 	if boton_toggle_combos != null:
 		boton_toggle_combos.pressed.connect(_on_boton_toggle_combos_pressed)
+	if boton_toggle_negativos != null:
+		boton_toggle_negativos.pressed.connect(_on_boton_toggle_negativos_pressed)
 	if boton_historial != null:
 		boton_historial.pressed.connect(_on_abrir_historial)
 	if boton_cerrar_historial != null:
@@ -180,6 +187,7 @@ func avanzar_paso_tutorial_completo(paso: int) -> void:
 func finalizar_tutorial_completo() -> void:
 	_limpiar_resaltado()
 	desplegar_panel_combos(false)
+	desplegar_panel_negativos(false)
 	
 	if modal_tutorial_guia != null:
 		modal_tutorial_guia.visible = false
@@ -199,11 +207,25 @@ func desplegar_panel_combos(abrir: bool) -> void:
 	if panel_combos == null:
 		return
 	panel_combos_abierto = abrir
+	if panel_combos_abierto and panel_negativos_abierto:
+		desplegar_panel_negativos(false)
 	if boton_toggle_combos != null:
-		boton_toggle_combos.text = "<" if panel_combos_abierto else ">"
+		boton_toggle_combos.text = "<" if panel_combos_abierto else "C\nO\nM\nB\nO\nS"
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(panel_combos, "position:x", 0.0 if panel_combos_abierto else -300.0, 0.4)
+
+func desplegar_panel_negativos(abrir: bool) -> void:
+	if panel_negativos == null:
+		return
+	panel_negativos_abierto = abrir
+	if panel_negativos_abierto and panel_combos_abierto:
+		desplegar_panel_combos(false)
+	if boton_toggle_negativos != null:
+		boton_toggle_negativos.text = "<" if panel_negativos_abierto else "A\nL\nE\nR\nT\nA\nS"
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(panel_negativos, "position:x", 0.0 if panel_negativos_abierto else -300.0, 0.4)
 
 func _resaltar_nodo(nodo: CanvasItem) -> void:
 	_limpiar_resaltado()
@@ -364,6 +386,9 @@ func _on_boton_menu_pressed() -> void:
 
 func _on_boton_toggle_combos_pressed() -> void:
 	desplegar_panel_combos(not panel_combos_abierto)
+
+func _on_boton_toggle_negativos_pressed() -> void:
+	desplegar_panel_negativos(not panel_negativos_abierto)
 
 func _on_abrir_historial() -> void:
 	if modal_historial != null: modal_historial.visible = true

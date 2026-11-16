@@ -10,6 +10,29 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd3vc"]
 bg_color = Color(0.107773975, 0.25040835, 0.32072106, 0.7882353)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46666667, 0.627451, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_negativos"]
+bg_color = Color(0.24, 0.08, 0.08, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.25, 0.25, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_guia"]
 bg_color = Color(0.08, 0.13, 0.18, 0.94)
@@ -156,16 +179,21 @@ custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
 text = "Jugar (0)"
 
-[node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
-custom_minimum_size = Vector2(130, 42)
-layout_mode = 2
-text = "Deshacer mano
-(+5 cont.)"
-
 [node name="BotonPasar" type="Button" parent="BotonesAccion" unique_id=1241315057]
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
 text = "PASAR TURNO"
+
+[node name="BotonLimpiar" type="Button" parent="BotonesAccion" unique_id=67717589]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "Descartar mano
+(+5 cont.)"
+
+[node name="BotonHistorial" type="Button" parent="BotonesAccion" unique_id=275027209]
+custom_minimum_size = Vector2(130, 42)
+layout_mode = 2
+text = "VER HISTORIAL"
 
 [node name="BotonGuardar" type="Button" parent="BotonesAccion" unique_id=57529821]
 custom_minimum_size = Vector2(130, 42)
@@ -176,11 +204,6 @@ text = "GUARDAR"
 custom_minimum_size = Vector2(130, 42)
 layout_mode = 2
 text = "MENÚ"
-
-[node name="BotonHistorial" type="Button" parent="BotonesAccion" unique_id=275027209]
-custom_minimum_size = Vector2(130, 42)
-layout_mode = 2
-text = "VER HISTORIAL"
 
 [node name="ContenedorMano" type="HBoxContainer" parent="." unique_id=1920176933]
 layout_mode = 0
@@ -229,7 +252,12 @@ O
 S"
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelCombos" unique_id=435072488]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelCombos/MarginContainer" unique_id=2057536024]
 layout_mode = 2
@@ -276,8 +304,9 @@ layout_mode = 2
 
 [node name="Label5" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2044824948]
 layout_mode = 2
-text = "☢️ AntiToxic + E-Waste: 
-     - Anula tóxicos"
+text = "☢️ Contención:
+     - Anula tóxicos
+     - Anula E-waste"
 
 [node name="HSeparator6" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2020580614]
 layout_mode = 2
@@ -285,6 +314,136 @@ layout_mode = 2
 [node name="Label7" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1322531255]
 layout_mode = 2
 text = "🌱 Limpieza: -5 Contaminación."
+
+[node name="HSeparator7" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1204449328]
+layout_mode = 2
+
+[node name="Label8" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=854950572]
+layout_mode = 2
+text = "🎰 Comodín/es solos:
+    - Unicamente descarta"
+
+[node name="HSeparator8" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=494379926]
+layout_mode = 2
+
+[node name="PanelNegativos" type="Panel" parent="." unique_id=1677842044]
+layout_mode = 0
+offset_left = -300.0
+offset_top = 100.0
+offset_bottom = 560.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_negativos")
+
+[node name="BotonToggleNegativos" type="Button" parent="PanelNegativos" unique_id=2065751867]
+modulate = Color(1, 0.6, 0.6, 1)
+layout_mode = 0
+offset_left = 302.0
+offset_top = 333.0
+offset_right = 342.0
+offset_bottom = 502.0
+text = "A
+L
+E
+R
+T
+A
+S"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelNegativos" unique_id=709298691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelNegativos/MarginContainer" unique_id=1374744347]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer" unique_id=1587890554]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="LabelTituloNeg" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1986484686]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+text = "⚠️ Efectos Negativos:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=703574625]
+layout_mode = 2
+
+[node name="LabelOrgRec" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=841859187]
+layout_mode = 2
+text = "☣️ Orgánico + Reciclable:
+     - +1 Contaminación.
+     - Contamina reciclables."
+
+[node name="HSeparator2" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=707807339]
+layout_mode = 2
+
+[node name="LabelOrgEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1827343989]
+layout_mode = 2
+text = "⚡ Orgánico + E-Waste:
+     - +4 Contaminación."
+
+[node name="HSeparator3" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1012437303]
+layout_mode = 2
+
+[node name="LabelRetOrg" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1582146919]
+layout_mode = 2
+text = "🍂 Retener Orgánicos (fin turno):
+     - 1 en mano: +2 Contam.
+     - 2+ en mano: +5 Descomposición
+       (y roba 1 carta menos)."
+
+[node name="HSeparator4" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=110648279]
+layout_mode = 2
+
+[node name="LabelRetTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1985542067]
+layout_mode = 2
+text = "☠️ Retener Tóxicos (fin turno):
+     - +1 Contam. por cada tóxico."
+
+[node name="HSeparator5" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1050618646]
+layout_mode = 2
+
+[node name="LabelRobTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=135951599]
+layout_mode = 2
+text = "🛢️ Robar Tóxico:
+     - +3 Contaminación."
+
+[node name="HSeparator6" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1006336853]
+layout_mode = 2
+
+[node name="LabelDesborde" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1176156897]
+layout_mode = 2
+text = "💥 Desbordamiento (10 cartas):
+     - +5 Contaminación.
+     - Descarta toda la mano."
+
+[node name="HSeparator7" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1433650498]
+layout_mode = 2
+
+[node name="LabelLimpiar" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=115961497]
+layout_mode = 2
+text = "🗑️ Limpiar Mano:
+     - +5 Contaminación."
+
+[node name="HSeparator8" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=433109829]
+layout_mode = 2
+
+[node name="LabelEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1701802388]
+layout_mode = 2
+text = "🔋 E-Waste sin Contención:
+     - Par: +1 Contam.
+     - Solo: +3 Contam."
 
 [node name="ModalHistorial" type="ColorRect" parent="." unique_id=1647498088]
 visible = false
