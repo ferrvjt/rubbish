@@ -55,13 +55,15 @@ func iniciar_tutorial_practico() -> void:
 func iniciar_tutorial_completo_partida() -> void:
 	mano_actual.clear()
 	
-	# Extraer exactamente 1 ejemplar de cada tipo: Orgánico, Reciclable, E-Waste, Tóxico, Comodín Compostera (J), Comodín Recicladora (Q) y As
+	# Extraer exactamente 1 ejemplar de cada tipo relevante para la demostración:
+	# Orgánico, Reciclable, E-Waste, Tóxico, Comodín J (Compostera), Comodín Q (Recicladora), Comodín K (Contención) y As (Limpieza)
 	var carta_org = extraer_carta_especifica(Carta.Categoria.ORGANICO)
 	var carta_rec = extraer_carta_especifica(Carta.Categoria.RECICLABLE)
 	var carta_ewaste = extraer_carta_especifica(Carta.Categoria.EWASTE)
 	var carta_tox = extraer_carta_especifica(Carta.Categoria.TOXICO)
 	var carta_j = extraer_carta_por_prefijo("wild_j_")
 	var carta_q = extraer_carta_por_prefijo("wild_q_")
+	var carta_k = extraer_carta_por_prefijo("wild_k_")
 	var carta_as = extraer_carta_especifica(Carta.Categoria.AS)
 	
 	if carta_org != null: mano_actual.append(carta_org)
@@ -70,6 +72,7 @@ func iniciar_tutorial_completo_partida() -> void:
 	if carta_tox != null: mano_actual.append(carta_tox)
 	if carta_j != null: mano_actual.append(carta_j)
 	if carta_q != null: mano_actual.append(carta_q)
+	if carta_k != null: mano_actual.append(carta_k)
 	if carta_as != null: mano_actual.append(carta_as)
 	
 	actualizar_pantalla()

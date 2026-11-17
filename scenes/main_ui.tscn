@@ -789,12 +789,24 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=302547489]
 layout_mode = 2
 
-[node name="TextoExplicacionTutorial" type="RichTextLabel" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=410272404]
+[node name="ContenedorDemostracion" type="HBoxContainer" parent="ModalTutorialGuia/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="TextoExplicacionTutorial" type="RichTextLabel" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorDemostracion" unique_id=410272404]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Explicación del tutorial..."
+
+[node name="ContenedorCartasDemo" type="HBoxContainer" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorDemostracion"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
 
 [node name="HSeparator2" type="HSeparator" parent="ModalTutorialGuia/MarginContainer/VBoxContainer" unique_id=1921666627]
 layout_mode = 2
@@ -806,7 +818,7 @@ alignment = 1
 [node name="BotonSiguienteTutorial" type="Button" parent="ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia" unique_id=103011217]
 custom_minimum_size = Vector2(220, 38)
 layout_mode = 2
-text = "SIGUIENTE (1/4)"
+text = "SIGUIENTE (1/10)"
 
 [node name="ModalTutorialFinalizado" type="ColorRect" parent="." unique_id=1665152546]
 visible = false

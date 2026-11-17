@@ -54,7 +54,8 @@ var panel_negativos_abierto: bool = false
 # Modal Tutorial Completo Guía
 @onready var modal_tutorial_guia: PanelContainer = $ModalTutorialGuia
 @onready var label_titulo_tutorial: Label = $ModalTutorialGuia/MarginContainer/VBoxContainer/LabelTituloTutorial
-@onready var texto_tutorial: RichTextLabel = $ModalTutorialGuia/MarginContainer/VBoxContainer/TextoExplicacionTutorial
+@onready var texto_tutorial: RichTextLabel = $ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorDemostracion/TextoExplicacionTutorial
+@onready var contenedor_cartas_demo: HBoxContainer = $ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorDemostracion/ContenedorCartasDemo
 @onready var boton_siguiente_tutorial: Button = $ModalTutorialGuia/MarginContainer/VBoxContainer/ContenedorBotonGuia/BotonSiguienteTutorial
 
 # Modal Tutorial Finalizado
@@ -69,7 +70,7 @@ const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 var cartas_seleccionadas: Array[Carta] = []
 
 # Control de Tutorial Completo Interactivo
-const TOTAL_PASOS_TUTORIAL: int = 7
+const TOTAL_PASOS_TUTORIAL: int = 10
 var paso_tutorial_completo: int = 1
 var tween_resaltado: Tween = null
 var nodo_resaltado_actual: CanvasItem = null
@@ -132,9 +133,10 @@ func avanzar_paso_tutorial_completo(paso: int) -> void:
 	
 	match paso:
 		1:
-			# Paso 1 (Métricas de Juego)
+			# Paso 1: Métricas de Juego
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(false)
+			_mostrar_cartas_demo([])
 			if label_titulo_tutorial != null:
 				label_titulo_tutorial.text = "PASO 1: MÉTRICAS DE JUEGO"
 			if texto_tutorial != null:
@@ -146,63 +148,99 @@ func avanzar_paso_tutorial_completo(paso: int) -> void:
 			if panel_metricas_container != null:
 				_resaltar_nodo(panel_metricas_container)
 		2:
-			# Paso 2 (Tipos de Cartas en Mano)
+			# Paso 2: Tipos de Cartas en Mano
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(false)
+			_mostrar_cartas_demo([])
 			if label_titulo_tutorial != null:
 				label_titulo_tutorial.text = "PASO 2: TIPOS DE CARTAS EN MANO"
 			if texto_tutorial != null:
-				texto_tutorial.text = "Hay distintas cartas: Orgánicas, Reciclables, E-Waste, Tóxicas y Comodines especiales (Compostera, Recicladora, Aislamiento y Limpieza)."
+				texto_tutorial.text = "Hay distintas cartas: Orgánicas, Reciclables, E-Waste, Tóxicas y Comodines especiales (Compostera, Recicladora, Aislamiento y Limpieza).\n\nEn tu mano puedes ver ejemplos de cada una."
 			if contenedor_mano != null:
 				_resaltar_nodo(contenedor_mano)
 		3:
-			# Paso 3 (Cartas Orgánicas y Compostera)
+			# Paso 3: Orgánicas y Compostera (J)
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(false)
+			var carta_org = _crear_carta_demo("org_apple_01", "Manzana", Carta.Tipo.RESIDUO, 2, "res://assets/BaseCard_organic.png", "res://assets/icons/apple.png")
+			var carta_j = _crear_carta_demo("wild_j_01", "Compostera", Carta.Tipo.COMODIN, 5, "res://assets/BaseCard_wildcard.png", "res://assets/icons/J.png")
+			_mostrar_cartas_demo([carta_org, carta_j])
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 3: ORGÁNICAS Y COMPOSTERA"
+				label_titulo_tutorial.text = "PASO 3: ORGÁNICAS Y COMPOSTERA (J)"
 			if texto_tutorial != null:
-				texto_tutorial.text = "Las Orgánicas forman pares (Suma x2), pero si las retienes al final del turno generan descomposición (+2 o +5 de contaminación). Puedes combinarlas con el Comodín Compostera (J) para multiplicar su puntaje sin dejar residuos."
-			if contenedor_mano != null:
-				_resaltar_nodo(contenedor_mano)
+				texto_tutorial.text = "• [b]Orgánicas:[/b] Forman pares (Suma x2), pero si las retienes al final del turno generan descomposición (+2 o +5 de contaminación).\n\n• [b]Compostera (J):[/b] Combínala con residuos orgánicos para multiplicar sus puntos sin dejar residuos ni generar penalizaciones."
 		4:
-			# Paso 4 (Reciclables, E-Waste, Tóxicas y Limpieza)
+			# Paso 4: Reciclables y Recicladora
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(false)
+			var carta_rec = _crear_carta_demo("rec_box_01", "Cartón", Carta.Tipo.RESIDUO, 3, "res://assets/BaseCard_recyclable.png", "res://assets/icons/cardboard_box.png")
+			var carta_q = _crear_carta_demo("wild_q_01", "Recicladora", Carta.Tipo.COMODIN, 3, "res://assets/BaseCard_wildcard.png", "res://assets/icons/Q.png")
+			_mostrar_cartas_demo([carta_rec, carta_q])
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 4: RECICLABLES, E-WASTE, TÓXICAS Y LIMPIEZA"
+				label_titulo_tutorial.text = "PASO 4: RECICLABLES Y RECICLADORA (Q)"
 			if texto_tutorial != null:
-				texto_tutorial.text = "• [b]Reciclables:[/b] Forman tercias (Suma x3) y recuperan un comodín usado.\n" \
-					+ "• [b]E-Waste y Tóxicas:[/b] Los E-Waste dan muchos puntos pero suman contaminación si no se contienen con el Comodín K; las Tóxicas suman +3 de contaminación al robarlas.\n" \
-					+ "• [b]Limpieza (As):[/b] Reduce -5 puntos de contaminación al jugarla."
-			if contenedor_mano != null:
-				_resaltar_nodo(contenedor_mano)
+				texto_tutorial.text = "• [b]Reciclables:[/b] Forman tercias (Suma x3) y recuperan un comodín usado previamente para devolverlo a tu mano.\n\n• [b]Recicladora (Q):[/b] Puedes combinarla con cartas reciclables para potenciar su procesamiento y sumar valiosos puntos."
 		5:
-			# Paso 5 (Panel de Combos)
+			# Paso 5: E-Waste y Contención
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
+			var carta_ewaste = _crear_carta_demo("ewaste_battery_01", "Batería", Carta.Tipo.RESIDUO, 5, "res://assets/BaseCard_ewaste.png", "res://assets/icons/battery.png")
+			var carta_k1 = _crear_carta_demo("wild_k_01", "Contención", Carta.Tipo.COMODIN, 0, "res://assets/BaseCard_wildcard.png", "res://assets/icons/anti_toxic.png")
+			_mostrar_cartas_demo([carta_ewaste, carta_k1])
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 5: E-WASTE Y CONTENCIÓN (K)"
+			if texto_tutorial != null:
+				texto_tutorial.text = "• [b]E-Waste:[/b] Dan muchos puntos pero aumentan la contaminación si se juegan solos (+3) o en pares sin aislar (+1).\n\n• [b]Contención (K):[/b] Neutraliza residuos de E-Waste y tóxicos, evitando la contaminación y otorgando bonus de puntos."
+		6:
+			# Paso 6: Tóxicas y Contención
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
+			var carta_tox = _crear_carta_demo("toxic_waste_01", "Tóxico", Carta.Tipo.RESIDUO, 6, "res://assets/BaseCard_toxic.png", "res://assets/icons/toxic_barrel.png")
+			var carta_k2 = _crear_carta_demo("wild_k_01", "Contención", Carta.Tipo.COMODIN, 0, "res://assets/BaseCard_wildcard.png", "res://assets/icons/anti_toxic.png")
+			_mostrar_cartas_demo([carta_tox, carta_k2])
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 6: TÓXICAS Y CONTENCIÓN (K)"
+			if texto_tutorial != null:
+				texto_tutorial.text = "• [b]Tóxicas:[/b] Al robarlas suman +3 inmediato a la contaminación y +1 por cada una que retengas al final del turno.\n\n• [b]Contención (K):[/b] Combina el Comodín K con residuos tóxicos para eliminarlos con seguridad sin sufrir penalizaciones."
+		7:
+			# Paso 7: Limpieza
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
+			var carta_as = _crear_carta_demo("wild_ace_01", "Limpieza", Carta.Tipo.TRATAMIENTO, -5, "res://assets/BaseCard_wildcard.png", "res://assets/icons/Ace.png")
+			_mostrar_cartas_demo([carta_as])
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 7: CARTA DE LIMPIEZA (AS)"
+			if texto_tutorial != null:
+				texto_tutorial.text = "• [b]Limpieza (As):[/b] ¡Tu mejor salvavidas ambiental!\n\nJugar un As solo reduce inmediatamente -5 puntos de contaminación acumulada de tu barra de peligro."
+		8:
+			# Paso 8: Panel de Combos (desplegado y resaltado)
 			desplegar_panel_negativos(false)
 			desplegar_panel_combos(true)
+			_mostrar_cartas_demo([])
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 5: PANEL DE COMBOS"
+				label_titulo_tutorial.text = "PASO 8: PANEL DE COMBOS"
 			if texto_tutorial != null:
-				texto_tutorial.text = "Se ha desplegado el [b]Panel de Combos[/b]. Consúltalo en cualquier momento para verificar las combinaciones válidas y cómo maximizar tus puntos de reducción."
+				texto_tutorial.text = "Se ha desplegado el [b]Panel de Combos[/b]. Consúltalo en cualquier momento durante la partida para verificar las combinaciones válidas y cómo maximizar tus puntos de reducción."
 			if panel_combos != null:
 				_resaltar_nodo(panel_combos)
-		6:
-			# Paso 6 (Panel de Efectos Negativos / Alertas)
+		9:
+			# Paso 9: Panel de Efectos Negativos / Alertas (desplegado y resaltado)
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(true)
+			_mostrar_cartas_demo([])
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 6: PANEL DE EFECTOS NEGATIVOS (ALERTAS)"
+				label_titulo_tutorial.text = "PASO 9: PANEL DE EFECTOS NEGATIVOS (ALERTAS)"
 			if texto_tutorial != null:
 				texto_tutorial.text = "Se ha desplegado el [b]Panel de Alertas Negativas[/b]. Aquí se detallan todas las penalizaciones por mezclar residuos incompatibles, retener cartas en mano o desbordar la capacidad de tu mano."
 			if panel_negativos != null:
 				_resaltar_nodo(panel_negativos)
-		7:
-			# Paso 7 (Acciones del Jugador)
+		10:
+			# Paso 10: Acciones del Jugador (Jugar, Pasar Turno, Descartar mano, Ver Historial)
 			desplegar_panel_combos(false)
 			desplegar_panel_negativos(false)
+			_mostrar_cartas_demo([])
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 7: ACCIONES DEL JUGADOR"
+				label_titulo_tutorial.text = "PASO 10: ACCIONES DEL JUGADOR"
 			if texto_tutorial != null:
 				texto_tutorial.text = "[b]Botones de Acción Disponibles:[/b]\n" \
 					+ "• [b]JUGAR:[/b] Procesa las cartas seleccionadas si forman una combinación válida.\n" \
@@ -214,10 +252,31 @@ func avanzar_paso_tutorial_completo(paso: int) -> void:
 		_:
 			finalizar_tutorial_completo()
 
+func _crear_carta_demo(id: String, nombre: String, tipo: Carta.Tipo, valor: int, base_path: String, icon_path: String) -> Carta:
+	var c = Carta.new(id, nombre, tipo, valor, base_path, icon_path)
+	return c
+
+func _mostrar_cartas_demo(cartas: Array[Carta]) -> void:
+	if contenedor_cartas_demo == null:
+		return
+	for child in contenedor_cartas_demo.get_children():
+		child.queue_free()
+	if cartas.is_empty():
+		contenedor_cartas_demo.visible = false
+		return
+	contenedor_cartas_demo.visible = true
+	for c in cartas:
+		var card_view = CARTA_VIEW_SCENE.instantiate()
+		contenedor_cartas_demo.add_child(card_view)
+		if card_view.has_method("cargar_carta"):
+			card_view.cargar_carta(c)
+		card_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
 func finalizar_tutorial_completo() -> void:
 	_limpiar_resaltado()
 	desplegar_panel_combos(false)
 	desplegar_panel_negativos(false)
+	_mostrar_cartas_demo([])
 	
 	var gm = get_node_or_null("GameManager")
 	if gm != null and gm.estado != null and gm.estado.modo_juego == "ONBOARDING_COMPLETO":
