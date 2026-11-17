@@ -7,6 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://d24eg0ulx864w" path="res://assets/bars/bar_gold.png" id="4_okuri"]
 [ext_resource type="Texture2D" uid="uid://dl5vtx38j6gvx" path="res://assets/coin.png" id="5_kyx1g"]
 [ext_resource type="Texture2D" uid="uid://dylnkgju27u0q" path="res://assets/BackCard.png" id="6_r8eje"]
+[ext_resource type="Texture2D" uid="uid://cjqptlre7f2li" path="res://assets/BaseCard_organic.png" id="7_organic"]
+[ext_resource type="Texture2D" uid="uid://hnd5a3ntcr1i" path="res://assets/BaseCard_recyclable.png" id="8_recyclable"]
+[ext_resource type="Texture2D" uid="uid://cl4c0e6b6otbp" path="res://assets/BaseCard_ewaste.png" id="9_ewaste"]
+[ext_resource type="Texture2D" uid="uid://2sg61lk4cva5" path="res://assets/BaseCard_toxic.png" id="10_toxic"]
+[ext_resource type="Texture2D" uid="uid://b76io2iyyjafl" path="res://assets/BaseCard_wildcard.png" id="11_wildcard"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd3vc"]
 bg_color = Color(0.107773975, 0.25040835, 0.32072106, 0.7882353)
@@ -259,71 +264,159 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelCombos/MarginContainer" unique_id=2057536024]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelCombos/MarginContainer" unique_id=1208463645]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1801714011]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer" unique_id=2057536024]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1801714011]
 layout_mode = 2
 text = "Combos Válidos:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=312447249]
+[node name="HSeparator" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=312447249]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1039646809]
+[node name="ItemParOrg" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=177365363]
 layout_mode = 2
-text = "🍎 Par Orgánico: Suma x 2."
+theme_override_constants/separation = 8
 
-[node name="HSeparator2" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=32570916]
+[node name="IconOrg" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemParOrg" unique_id=842898515]
+custom_minimum_size = Vector2(24, 32)
 layout_mode = 2
+texture = ExtResource("7_organic")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Label3" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=265564750]
+[node name="Label2" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemParOrg" unique_id=1039646809]
 layout_mode = 2
-text = "♻️ Tercia Reciclable: 
-     - Suma x 3+ Recupera Comodín."
+size_flags_horizontal = 3
+text = "Par Orgánico: Suma x 2."
 
-[node name="HSeparator3" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=560251503]
-layout_mode = 2
-
-[node name="Label4" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1290124028]
-layout_mode = 2
-text = "🔋 Par E-Waste: 
-     - Suma x 3 (+1 Cont)."
-
-[node name="HSeparator4" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1565013554]
+[node name="HSeparator2" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=32570916]
 layout_mode = 2
 
-[node name="Label6" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=606489457]
+[node name="ItemTerciaRec" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1927502593]
 layout_mode = 2
-text = "🔋 E-waste único:
-     - pts x 3."
+theme_override_constants/separation = 8
 
-[node name="HSeparator5" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=615813527]
+[node name="IconRec" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemTerciaRec" unique_id=1364817377]
+custom_minimum_size = Vector2(24, 32)
 layout_mode = 2
+texture = ExtResource("8_recyclable")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Label5" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2044824948]
+[node name="Label3" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemTerciaRec" unique_id=265564750]
 layout_mode = 2
-text = "☢️ Contención:
-     - Anula tóxicos
-     - Anula E-waste"
+size_flags_horizontal = 3
+text = "Tercia Reciclable: 
+- Suma x 3 + Comodín."
 
-[node name="HSeparator6" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=2020580614]
-layout_mode = 2
-
-[node name="Label7" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1322531255]
-layout_mode = 2
-text = "🌱 Limpieza: -5 Contaminación."
-
-[node name="HSeparator7" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=1204449328]
+[node name="HSeparator3" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=560251503]
 layout_mode = 2
 
-[node name="Label8" type="Label" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=854950572]
+[node name="ItemParEwaste" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=512008945]
 layout_mode = 2
-text = "🎰 Comodín/es solos:
-    - Unicamente descarta"
+theme_override_constants/separation = 8
 
-[node name="HSeparator8" type="HSeparator" parent="PanelCombos/MarginContainer/VBoxContainer" unique_id=494379926]
+[node name="IconEwaste" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemParEwaste" unique_id=1042978738]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("9_ewaste")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label4" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemParEwaste" unique_id=1290124028]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Par E-Waste: 
+- Suma x 3 (+1 Cont)."
+
+[node name="HSeparator4" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1565013554]
+layout_mode = 2
+
+[node name="ItemEwasteSolo" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1737653680]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconEwasteSolo" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemEwasteSolo" unique_id=1170154824]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("9_ewaste")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label6" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemEwasteSolo" unique_id=606489457]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "E-Waste único:
+- Pts x 1.5 (+3 Cont)."
+
+[node name="HSeparator5" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=615813527]
+layout_mode = 2
+
+[node name="ItemContencion" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=941844109]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconContencion" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemContencion" unique_id=1355642576]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("10_toxic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label5" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemContencion" unique_id=2044824948]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Contención (K):
+- Anula tóxicos/E-waste"
+
+[node name="HSeparator6" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=2020580614]
+layout_mode = 2
+
+[node name="ItemLimpieza" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=385644972]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconLimpieza" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemLimpieza" unique_id=806172222]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("11_wildcard")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label7" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemLimpieza" unique_id=1322531255]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Limpieza (As):
+- -5 Contaminación."
+
+[node name="HSeparator7" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1204449328]
+layout_mode = 2
+
+[node name="ItemComodines" type="HBoxContainer" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=2090513593]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconComodin" type="TextureRect" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemComodines" unique_id=2052712592]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("11_wildcard")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label8" type="Label" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer/ItemComodines" unique_id=854950572]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Comodín/es solos:
+- Únicamente descarta"
+
+[node name="HSeparator8" type="HSeparator" parent="PanelCombos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=494379926]
 layout_mode = 2
 
 [node name="PanelNegativos" type="Panel" parent="." unique_id=1677842044]
@@ -379,71 +472,181 @@ vertical_alignment = 1
 [node name="HSeparator1" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=703574625]
 layout_mode = 2
 
-[node name="LabelOrgRec" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=841859187]
+[node name="ItemOrgRec" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=425696524]
 layout_mode = 2
-text = "☣️ Orgánico + Reciclable:
-     - +1 Contaminación.
-     - Contamina reciclables."
+theme_override_constants/separation = 6
+
+[node name="IconOrg" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgRec" unique_id=581211988]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("7_organic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IconRec" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgRec" unique_id=915097287]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("8_recyclable")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelOrgRec" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgRec" unique_id=841859187]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Orgánico + Reciclable:
+- +1 Contaminación.
+- Contamina reciclables."
 
 [node name="HSeparator2" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=707807339]
 layout_mode = 2
 
-[node name="LabelOrgEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1827343989]
+[node name="ItemOrgEwaste" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=2014023035]
 layout_mode = 2
-text = "⚡ Orgánico + E-Waste:
-     - +4 Contaminación."
+theme_override_constants/separation = 6
+
+[node name="IconOrg" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgEwaste" unique_id=1822474041]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("7_organic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IconEwaste" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgEwaste" unique_id=1053217539]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("9_ewaste")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelOrgEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemOrgEwaste" unique_id=1827343989]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Orgánico + E-Waste:
+- +4 Contaminación."
 
 [node name="HSeparator3" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1012437303]
 layout_mode = 2
 
-[node name="LabelRetOrg" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1582146919]
+[node name="ItemRetOrg" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=660572623]
 layout_mode = 2
-text = "🍂 Retener Orgánicos (fin turno):
-     - 1 en mano: +2 Contam.
-     - 2+ en mano: +5 Descomposición
-       (y roba 1 carta menos)."
+theme_override_constants/separation = 6
+
+[node name="IconOrg" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRetOrg" unique_id=1872162060]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("7_organic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelRetOrg" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRetOrg" unique_id=1582146919]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Retener Orgánicos (fin turno):
+- 1 en mano: +2 Contam.
+- 2+ en mano: +5 Descomposición
+  (y roba 1 carta menos)."
 
 [node name="HSeparator4" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=110648279]
 layout_mode = 2
 
-[node name="LabelRetTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1985542067]
+[node name="ItemRetTox" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=19931191]
 layout_mode = 2
-text = "☠️ Retener Tóxicos (fin turno):
-     - +1 Contam. por cada tóxico."
+theme_override_constants/separation = 6
+
+[node name="IconTox" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRetTox" unique_id=1548135990]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("10_toxic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelRetTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRetTox" unique_id=1985542067]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Retener Tóxicos (fin turno):
+- +1 Contam. por cada tóxico."
 
 [node name="HSeparator5" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1050618646]
 layout_mode = 2
 
-[node name="LabelRobTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=135951599]
+[node name="ItemRobTox" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=2010159471]
 layout_mode = 2
-text = "🛢️ Robar Tóxico:
-     - +3 Contaminación."
+theme_override_constants/separation = 6
+
+[node name="IconTox" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRobTox" unique_id=605413580]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("10_toxic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelRobTox" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemRobTox" unique_id=135951599]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Robar Tóxico:
+- +3 Contaminación."
 
 [node name="HSeparator6" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1006336853]
 layout_mode = 2
 
-[node name="LabelDesborde" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1176156897]
+[node name="ItemDesborde" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=78235304]
 layout_mode = 2
-text = "💥 Desbordamiento (10 cartas):
-     - +5 Contaminación.
-     - Descarta toda la mano."
+theme_override_constants/separation = 6
+
+[node name="IconDesborde" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemDesborde" unique_id=344748279]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("6_r8eje")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelDesborde" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemDesborde" unique_id=1176156897]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Desbordamiento (10 cartas):
+- +5 Contaminación.
+- Descarta toda la mano."
 
 [node name="HSeparator7" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1433650498]
 layout_mode = 2
 
-[node name="LabelLimpiar" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=115961497]
+[node name="ItemLimpiar" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=887114226]
 layout_mode = 2
-text = "🗑️ Limpiar Mano:
-     - +5 Contaminación."
+theme_override_constants/separation = 6
+
+[node name="IconLimpiar" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemLimpiar" unique_id=398447587]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("6_r8eje")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelLimpiar" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemLimpiar" unique_id=115961497]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Limpiar Mano:
+- +5 Contaminación."
 
 [node name="HSeparator8" type="HSeparator" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=433109829]
 layout_mode = 2
 
-[node name="LabelEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1701802388]
+[node name="ItemEwaste" type="HBoxContainer" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1346194344]
 layout_mode = 2
-text = "🔋 E-Waste sin Contención:
-     - Par: +1 Contam.
-     - Solo: +3 Contam."
+theme_override_constants/separation = 6
+
+[node name="IconEwaste" type="TextureRect" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemEwaste" unique_id=1568117043]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+texture = ExtResource("9_ewaste")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelEwaste" type="Label" parent="PanelNegativos/MarginContainer/ScrollContainer/VBoxContainer/ItemEwaste" unique_id=1701802388]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "E-Waste sin Contención:
+- Par: +1 Contam.
+- Solo: +3 Contam."
 
 [node name="ModalHistorial" type="ColorRect" parent="." unique_id=1647498088]
 visible = false

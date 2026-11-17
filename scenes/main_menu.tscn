@@ -71,6 +71,10 @@ text = "Cargar Partida"
 layout_mode = 2
 text = "TUTORIAL COMPLETO"
 
+[node name="BotonEliminarProgreso" type="Button" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal"]
+layout_mode = 2
+text = "Eliminar Progreso"
+
 [node name="LabelInfoGuardado" type="Label" parent="CenterContainer/PanelMenu/MarginContainer/MenuPrincipal" unique_id=166343033]
 layout_mode = 2
 text = "Verificando..."

@@ -16,15 +16,18 @@ func _iniciar_o_cargar() -> void:
 		PersistenciaManager.partida_cargada_pendiente.clear()
 		
 		if datos.get("es_nueva_partida", false) == true:
-			iniciar_partida(datos.get("modo_juego", "ESTANDAR"))
+			var modo = datos.get("modo_juego", "ESTANDAR")
+			var modo_dest = datos.get("modo_destino", "ESTANDAR")
+			iniciar_partida(modo, modo_dest)
 		else:
 			cargar_desde_datos(datos)
 	else:
 		iniciar_partida("ESTANDAR")
 
-func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR") -> void:
+func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR", modo_destino: String = "ESTANDAR") -> void:
 	estado = EstadoJuego.new(21)
 	estado.configurar_modo(modo_juego_seleccionado)
+	estado.modo_destino_onboarding = modo_destino
 	mazo = Mazo.new()
 	mazo.cargar_desde_json("res://assets/cartas_base.json")
 	mano_actual.clear()
@@ -41,20 +44,32 @@ func iniciar_partida(modo_juego_seleccionado: String = "ESTANDAR") -> void:
 			vista_ui.set_estado_botones(true, true, true)
 			vista_ui.mostrar_feedback("[INFO] Partida iniciada en Modo: " + estado.modo_juego, Color(0.4, 1.0, 0.7))
 
+func iniciar_tutorial_practico() -> void:
+	estado.es_tutorial_completo = false
+	estado.en_tutorial = true
+	estado.paso_tutorial = 0
+	mazo = Mazo.new()
+	mazo.cargar_desde_json("res://assets/cartas_base.json")
+	ejecutar_paso_tutorial()
+
 func iniciar_tutorial_completo_partida() -> void:
 	mano_actual.clear()
 	
-	# Extraer variedad controlada de cartas: Orgánico, Reciclable, E-Waste, Comodín y As
+	# Extraer exactamente 1 ejemplar de cada tipo: Orgánico, Reciclable, E-Waste, Tóxico, Comodín Compostera (J), Comodín Recicladora (Q) y As
 	var carta_org = extraer_carta_especifica(Carta.Categoria.ORGANICO)
 	var carta_rec = extraer_carta_especifica(Carta.Categoria.RECICLABLE)
 	var carta_ewaste = extraer_carta_especifica(Carta.Categoria.EWASTE)
-	var carta_comodin = extraer_carta_especifica(Carta.Categoria.COMODIN)
+	var carta_tox = extraer_carta_especifica(Carta.Categoria.TOXICO)
+	var carta_j = extraer_carta_por_prefijo("wild_j_")
+	var carta_q = extraer_carta_por_prefijo("wild_q_")
 	var carta_as = extraer_carta_especifica(Carta.Categoria.AS)
 	
 	if carta_org != null: mano_actual.append(carta_org)
 	if carta_rec != null: mano_actual.append(carta_rec)
 	if carta_ewaste != null: mano_actual.append(carta_ewaste)
-	if carta_comodin != null: mano_actual.append(carta_comodin)
+	if carta_tox != null: mano_actual.append(carta_tox)
+	if carta_j != null: mano_actual.append(carta_j)
+	if carta_q != null: mano_actual.append(carta_q)
 	if carta_as != null: mano_actual.append(carta_as)
 	
 	actualizar_pantalla()
@@ -74,7 +89,7 @@ func ejecutar_paso_tutorial() -> void:
 		
 		if vista_ui != null:
 			vista_ui.set_estado_botones(true, false, false)
-			vista_ui.mostrar_feedback("[TUTORIAL 1/2] Selecciona SÓLO los 2 Residuos Orgánicos y presiona JUGAR.", Color.CYAN)
+			vista_ui.mostrar_feedback("[TUTORIAL 1/3] Selecciona SÓLO los 2 Residuos Orgánicos y presiona JUGAR para formar un combo y sumar puntos.", Color.CYAN)
 			
 	elif estado.paso_tutorial == 1:
 		mano_actual.append(extraer_carta_especifica(Carta.Categoria.EWASTE))
@@ -82,24 +97,51 @@ func ejecutar_paso_tutorial() -> void:
 		
 		if vista_ui != null:
 			vista_ui.set_estado_botones(true, false, false)
-			vista_ui.mostrar_feedback("[TUTORIAL 2/2] ¡Bien! Ahora procesa la Batería (E-Waste) sola.", Color.CYAN)
+			vista_ui.mostrar_feedback("[TUTORIAL 2/3] Algunas cartas se pueden jugar solas, pero tienen consecuencias. Selecciona SÓLO la carta E-Waste y júgala para ver su efecto.", Color.CYAN)
+			
+	elif estado.paso_tutorial == 2:
+		var com_j = extraer_carta_por_prefijo("wild_j_")
+		if com_j == null:
+			com_j = extraer_carta_especifica(Carta.Categoria.COMODIN)
+		if com_j != null:
+			mano_actual.append(com_j)
+		var org = extraer_carta_especifica(Carta.Categoria.ORGANICO)
+		if org != null:
+			mano_actual.append(org)
+			
+		if vista_ui != null:
+			vista_ui.set_estado_botones(true, false, false)
+			vista_ui.mostrar_feedback("[TUTORIAL 3/3] Si un comodín no te sirve, puedes seleccionarlo solo y presionar JUGAR. No suma puntos, pero se desecha para liberar espacio en tu mano.", Color.CYAN)
 			
 	else:
 		estado.en_tutorial = false
-		estado.modo_juego = "ESTANDAR"
+		var modo_destino = estado.modo_destino_onboarding if estado.modo_destino_onboarding != "" else "ESTANDAR"
+		estado.configurar_modo(modo_destino)
 		estado.registrar_log("[TUTORIAL] Tutorial completado. ¡Se guarda tu progreso de forma permanente!")
 		
 		var perfil = PersistenciaManager.cargar_perfil()
 		perfil["tutorial_completado"] = true
 		PersistenciaManager.guardar_perfil(perfil)
 		
+		mazo = Mazo.new()
+		mazo.cargar_desde_json("res://assets/cartas_base.json")
+		mazo.barajar()
+		
 		if vista_ui != null:
 			vista_ui.set_estado_botones(true, true, true)
-			vista_ui.mostrar_feedback("[ÉXITO] ¡Tutorial completado! Buena suerte.", Color.GREEN)
+			vista_ui.mostrar_feedback("[ÉXITO] ¡Tutorial completado! Buena suerte en tu partida.", Color.GREEN)
 		
 		robar_cartas(4)
 		
 	actualizar_pantalla()
+
+func extraer_carta_por_prefijo(prefijo: String) -> Carta:
+	for i in range(mazo.cartas.size()):
+		if mazo.cartas[i].id.begins_with(prefijo):
+			var carta_encontrada = mazo.cartas[i]
+			mazo.cartas.pop_at(i)
+			return carta_encontrada
+	return null
 
 func extraer_carta_especifica(categoria_buscada: Carta.Categoria) -> Carta:
 	for i in range(mazo.cartas.size()):
@@ -159,6 +201,11 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 			if cartas_sel.size() != 1 or not cartas_sel[0].es_ewaste():
 				if vista_ui != null:
 					vista_ui.mostrar_feedback("[ERROR TUTORIAL] Selecciona SÓLO la carta E-Waste.", Color(1.0, 0.3, 0.3))
+				return
+		elif estado.paso_tutorial == 2:
+			if cartas_sel.size() != 1 or not cartas_sel[0].es_comodin():
+				if vista_ui != null:
+					vista_ui.mostrar_feedback("[ERROR TUTORIAL] Selecciona ÚNICAMENTE el comodín para desecharlo.", Color(1.0, 0.3, 0.3))
 				return
 
 	# 0. JUGAR AS (Limpia -5 Contaminación)
@@ -244,6 +291,7 @@ func procesar_jugada_seleccionada(cartas_sel: Array[Carta]) -> void:
 		if vista_ui != null:
 			vista_ui.mostrar_feedback(msg, Color(0.4, 0.8, 1.0))
 			vista_ui.generar_popup_combo("¡Comodín descartado!", "#66ccff")
+		_avanzar_tutorial_si_aplica()
 		actualizar_pantalla()
 		verificar_fin_juego()
 		return

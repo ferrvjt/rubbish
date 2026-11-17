@@ -7,6 +7,14 @@ const RUTA_PERFIL: String = "user://perfil.json"
 # Variable estática para transferir la partida cargada desde MainMenu a GameManager
 static var partida_cargada_pendiente: Dictionary = {}
 
+static func eliminar_todo_el_progreso() -> void:
+	if FileAccess.file_exists(RUTA_GUARDADO):
+		DirAccess.remove_absolute(RUTA_GUARDADO)
+	if FileAccess.file_exists(RUTA_PERFIL):
+		DirAccess.remove_absolute(RUTA_PERFIL)
+	partida_cargada_pendiente.clear()
+	print("PersistenciaManager: Todo el progreso y partidas guardadas han sido eliminados.")
+
 static func hay_partida_guardada() -> bool:
 	return FileAccess.file_exists(RUTA_GUARDADO)
 

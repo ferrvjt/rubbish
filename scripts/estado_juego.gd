@@ -10,12 +10,14 @@ var turno: int = 1
 var comodines_usados: Array[Carta] = []
 var estado_partida: String = "JUGANDO" # "JUGANDO", "VICTORIA", "DERROTA"
 var logs: Array[String] = []
-var modo_juego: String = "ESTANDAR" # "ESTANDAR", "INFINITO", "RETO_TOXICO", "TUTORIAL", "TUTORIAL_COMPLETO"
+var modo_juego: String = "ESTANDAR" # "ESTANDAR", "INFINITO", "RETO_TOXICO", "TUTORIAL", "TUTORIAL_COMPLETO", "ONBOARDING_COMPLETO"
 
 # Control de Tutorial Guiado
 var en_tutorial: bool = false
 var paso_tutorial: int = 0
 var es_tutorial_completo: bool = false
+var es_onboarding: bool = false
+var modo_destino_onboarding: String = "ESTANDAR"
 
 func _init(p_limite: int = 21) -> void:
 	limite_contaminacion = p_limite
@@ -29,6 +31,8 @@ func _init(p_limite: int = 21) -> void:
 	en_tutorial = false
 	paso_tutorial = 0
 	es_tutorial_completo = false
+	es_onboarding = false
+	modo_destino_onboarding = "ESTANDAR"
 	logs = ["[INICIO] Partida iniciada. Limpia el entorno sin alcanzar el límite de contaminación."]
 
 func configurar_modo(p_modo: String) -> void:
@@ -48,6 +52,11 @@ func configurar_modo(p_modo: String) -> void:
 			limite_contaminacion = 21
 			es_tutorial_completo = true
 			registrar_log("[MODO] Tutorial Completo Interactivo iniciado.")
+		"ONBOARDING_COMPLETO":
+			limite_contaminacion = 21
+			es_tutorial_completo = true
+			es_onboarding = true
+			registrar_log("[MODO] Onboarding Completo iniciado.")
 		_:
 			modo_juego = "ESTANDAR"
 			limite_contaminacion = 21

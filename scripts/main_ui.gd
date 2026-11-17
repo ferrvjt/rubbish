@@ -69,7 +69,7 @@ const COMBO_VFX_SCENE = preload("res://scenes/combo_vfx.tscn")
 var cartas_seleccionadas: Array[Carta] = []
 
 # Control de Tutorial Completo Interactivo
-const TOTAL_PASOS_TUTORIAL: int = 4
+const TOTAL_PASOS_TUTORIAL: int = 7
 var paso_tutorial_completo: int = 1
 var tween_resaltado: Tween = null
 var nodo_resaltado_actual: CanvasItem = null
@@ -133,51 +133,81 @@ func avanzar_paso_tutorial_completo(paso: int) -> void:
 	match paso:
 		1:
 			# Paso 1 (Métricas de Juego)
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
 			if label_titulo_tutorial != null:
 				label_titulo_tutorial.text = "PASO 1: MÉTRICAS DE JUEGO"
 			if texto_tutorial != null:
 				texto_tutorial.text = "[b]Panel de Métricas:[/b]\n" \
 					+ "• [b]Turno:[/b] Número de turno actual.\n" \
-					+ "• [b]Contaminación:[/b] Barra que sube con el residuo sin tratar; si llega al límite se pierde.\n" \
+					+ "• [b]Contaminación:[/b] Barra que sube con el residuo sin tratar; si llega al límite se pierde la partida.\n" \
 					+ "• [b]Puntos de Reducción:[/b] Puntaje acumulado por procesar combos.\n" \
 					+ "• [b]Mazo y Comodines Usados:[/b] Cantidad de cartas restantes y comodines activos."
 			if panel_metricas_container != null:
 				_resaltar_nodo(panel_metricas_container)
 		2:
-			# Paso 2 (Panel de Combos)
-			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 2: PANEL DE COMBOS"
-			if texto_tutorial != null:
-				texto_tutorial.text = "[b]Panel Retráctil de Combos:[/b]\n" \
-					+ "• Se ha desplegado automáticamente el panel lateral de combinaciones.\n" \
-					+ "• Puedes consultarlo en cualquier momento durante la partida para revisar qué combinaciones son válidas y su puntuación.\n" \
-					+ "• Haz clic en la pestaña [b]>[/b] o [b]<[/b] para abrirlo o cerrarlo cuando desees."
-			desplegar_panel_combos(true)
-			if panel_combos != null:
-				_resaltar_nodo(panel_combos)
-		3:
-			# Paso 3 (Uso de Comodines y Cartas Especiales)
+			# Paso 2 (Tipos de Cartas en Mano)
 			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 3: USO DE COMODINES Y CARTAS ESPECIALES"
+				label_titulo_tutorial.text = "PASO 2: TIPOS DE CARTAS EN MANO"
 			if texto_tutorial != null:
-				texto_tutorial.text = "[b]Cartas Especiales y Comodines Clave:[/b]\n" \
-					+ "• [b]Comodín J (Compostera):[/b] Potencia orgánicos.\n" \
-					+ "• [b]Comodín Q (Recicladora):[/b] Potencia reciclables.\n" \
-					+ "• [b]Comodín K (Aislamiento):[/b] Neutraliza E-Waste y tóxicos.\n" \
-					+ "• [b]As (Limpieza):[/b] Reduce contaminación acumulada (-5)."
+				texto_tutorial.text = "Hay distintas cartas: Orgánicas, Reciclables, E-Waste, Tóxicas y Comodines especiales (Compostera, Recicladora, Aislamiento y Limpieza)."
+			if contenedor_mano != null:
+				_resaltar_nodo(contenedor_mano)
+		3:
+			# Paso 3 (Cartas Orgánicas y Compostera)
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 3: ORGÁNICAS Y COMPOSTERA"
+			if texto_tutorial != null:
+				texto_tutorial.text = "Las Orgánicas forman pares (Suma x2), pero si las retienes al final del turno generan descomposición (+2 o +5 de contaminación). Puedes combinarlas con el Comodín Compostera (J) para multiplicar su puntaje sin dejar residuos."
 			if contenedor_mano != null:
 				_resaltar_nodo(contenedor_mano)
 		4:
-			# Paso 4 (Acciones del Jugador)
+			# Paso 4 (Reciclables, E-Waste, Tóxicas y Limpieza)
 			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
 			if label_titulo_tutorial != null:
-				label_titulo_tutorial.text = "PASO 4: ACCIONES DEL JUGADOR"
+				label_titulo_tutorial.text = "PASO 4: RECICLABLES, E-WASTE, TÓXICAS Y LIMPIEZA"
+			if texto_tutorial != null:
+				texto_tutorial.text = "• [b]Reciclables:[/b] Forman tercias (Suma x3) y recuperan un comodín usado.\n" \
+					+ "• [b]E-Waste y Tóxicas:[/b] Los E-Waste dan muchos puntos pero suman contaminación si no se contienen con el Comodín K; las Tóxicas suman +3 de contaminación al robarlas.\n" \
+					+ "• [b]Limpieza (As):[/b] Reduce -5 puntos de contaminación al jugarla."
+			if contenedor_mano != null:
+				_resaltar_nodo(contenedor_mano)
+		5:
+			# Paso 5 (Panel de Combos)
+			desplegar_panel_negativos(false)
+			desplegar_panel_combos(true)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 5: PANEL DE COMBOS"
+			if texto_tutorial != null:
+				texto_tutorial.text = "Se ha desplegado el [b]Panel de Combos[/b]. Consúltalo en cualquier momento para verificar las combinaciones válidas y cómo maximizar tus puntos de reducción."
+			if panel_combos != null:
+				_resaltar_nodo(panel_combos)
+		6:
+			# Paso 6 (Panel de Efectos Negativos / Alertas)
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(true)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 6: PANEL DE EFECTOS NEGATIVOS (ALERTAS)"
+			if texto_tutorial != null:
+				texto_tutorial.text = "Se ha desplegado el [b]Panel de Alertas Negativas[/b]. Aquí se detallan todas las penalizaciones por mezclar residuos incompatibles, retener cartas en mano o desbordar la capacidad de tu mano."
+			if panel_negativos != null:
+				_resaltar_nodo(panel_negativos)
+		7:
+			# Paso 7 (Acciones del Jugador)
+			desplegar_panel_combos(false)
+			desplegar_panel_negativos(false)
+			if label_titulo_tutorial != null:
+				label_titulo_tutorial.text = "PASO 7: ACCIONES DEL JUGADOR"
 			if texto_tutorial != null:
 				texto_tutorial.text = "[b]Botones de Acción Disponibles:[/b]\n" \
 					+ "• [b]JUGAR:[/b] Procesa las cartas seleccionadas si forman una combinación válida.\n" \
-					+ "• [b]LIMPIAR:[/b] Descarta toda tu mano voluntariamente (+5 contaminación de penalización).\n" \
 					+ "• [b]PASAR TURNO:[/b] Aplica efectos del turno y roba nuevas cartas del mazo.\n" \
+					+ "• [b]Descartar mano:[/b] Descarta toda tu mano voluntariamente (+5 contaminación de penalización).\n" \
 					+ "• [b]VER HISTORIAL:[/b] Consulta el registro detallado de eventos y jugadas."
 			if botones_accion != null:
 				_resaltar_nodo(botones_accion)
@@ -189,6 +219,13 @@ func finalizar_tutorial_completo() -> void:
 	desplegar_panel_combos(false)
 	desplegar_panel_negativos(false)
 	
+	var gm = get_node_or_null("GameManager")
+	if gm != null and gm.estado != null and gm.estado.modo_juego == "ONBOARDING_COMPLETO":
+		if modal_tutorial_guia != null:
+			modal_tutorial_guia.visible = false
+		gm.iniciar_tutorial_practico()
+		return
+		
 	if modal_tutorial_guia != null:
 		modal_tutorial_guia.visible = false
 		

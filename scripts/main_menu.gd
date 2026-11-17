@@ -9,6 +9,7 @@ extends Control
 @onready var boton_nueva: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonNueva
 @onready var boton_cargar: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonCargar
 @onready var boton_tutorial_completo: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonTutorialCompleto
+@onready var boton_eliminar_progreso: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonEliminarProgreso
 @onready var label_info: Label = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/LabelInfoGuardado
 @onready var boton_salir: Button = $CenterContainer/PanelMenu/MarginContainer/MenuPrincipal/BotonSalir
 
@@ -40,6 +41,8 @@ func _ready() -> void:
 		boton_cargar.pressed.connect(_on_cargar_partida_pressed)
 	if boton_tutorial_completo != null:
 		boton_tutorial_completo.pressed.connect(_on_tutorial_completo_pressed)
+	if boton_eliminar_progreso != null:
+		boton_eliminar_progreso.pressed.connect(_on_eliminar_progreso_pressed)
 	if boton_salir != null:
 		boton_salir.pressed.connect(_on_salir_pressed)
 	
@@ -80,16 +83,27 @@ func _confirmar_e_iniciar_partida() -> void:
 
 func _iniciar_nueva_partida(modo_seleccionado: String) -> void:
 	var perfil = PersistenciaManager.cargar_perfil()
-	var modo_final = modo_seleccionado
 	
 	if not perfil.get("tutorial_completado", false):
-		modo_final = "TUTORIAL"
+		PersistenciaManager.partida_cargada_pendiente = {
+			"es_nueva_partida": true,
+			"modo_juego": "ONBOARDING_COMPLETO",
+			"modo_destino": modo_seleccionado
+		}
+	else:
+		PersistenciaManager.partida_cargada_pendiente = {
+			"es_nueva_partida": true,
+			"modo_juego": modo_seleccionado
+		}
 		
-	PersistenciaManager.partida_cargada_pendiente = {
-		"es_nueva_partida": true,
-		"modo_juego": modo_final
-	}
 	get_tree().change_scene_to_file("res://scenes/main_ui.tscn")
+
+func _on_eliminar_progreso_pressed() -> void:
+	PersistenciaManager.eliminar_todo_el_progreso()
+	_actualizar_estado_guardado()
+	if label_info != null:
+		label_info.text = "Progreso y partidas eliminadas."
+		label_info.modulate = Color(1.0, 0.6, 0.4)
 
 func _actualizar_estado_guardado() -> void:
 	if PersistenciaManager.hay_partida_guardada():
